@@ -15,9 +15,8 @@ def connect_redshift(func):
                 password = PASSWORD,
             )
             cursor = connect.cursor()
-
             request.cursor = cursor
-
+            request.connect = connect
             return func(self, request, *args, **kwargs)
 
         except KeyError as e:
