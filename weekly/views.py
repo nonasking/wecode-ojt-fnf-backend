@@ -9,20 +9,21 @@ from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
 
-class TimeSeriesView(View):
+
+class ChannelTimeSeriesView(View):
 
     def __init__(self):
         self.columns_description={
-            "sales_kor_cy":"국내총판매",
+            "sales_kor_cy":"위탁총판매",
             "sales_kor_retail_cy":"국내",
             "sales_dutyfwhole_cy":"면세RF도매",
             "sales_chn_cy":"중국",
-            "sales_chn_cy":"홍마대",
+            "sales_gvl_cy":"홍마대",
         }
 
     def get_query(self, *args, **kwargs):
         query = """
-with rds as (
+with rds AS (
     SELECT end_dt
          , sale_nml_qty_cns + sale_ret_qty_cns AS sales_kor_cy
          , sale_nml_qty_rtl + sale_ret_qty_rtl AS sales_retail_cy
@@ -77,8 +78,8 @@ ORDER BY 1
             sub_category = request.GET.getlist("sub_category",None)
             connect =request.connect
 
-            end_date = get_last_sunday(end_date)
             end_date_this_week = get_last_sunday(end_date_this_week)
+            end_date = end_date_this_week
 
             season = get_tuple(season)
             sub_category = get_tuple(sub_category)
@@ -93,17 +94,18 @@ ORDER BY 1
                 end_date_this_week = end_date_this_week,
                 season = season,
             )
-        
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
-
-            columns = data.columns.values.tolist()
+            
             result = [{
-                column : data[column].tolist()
-                }for column in columns
+                "end_date": item["end_dt"],
+                "sales_kor_cy": item["sales_kor_cy"],
+                "sales_kor_retail_cy": item["sales_kor_retail_cy"],
+                "sales_dutyrfwhole_cy": item["sales_dutyrfwhole_cy"],
+                "sales_chn_cy": item["sales_chn_cy"],
+                "sales_gvl_cy": item["sales_gvl_cy"],
+                }for __, item in data.iterrows()
             ]
-            result.append(self.columns_description)
-
             return JsonResponse({"message":"success", "data":result}, status=200)
 
         except KeyError as e:

@@ -1,6 +1,6 @@
 from django.urls import path
-from weekly.views import TimeSeriesView
+from weekly.views import ChannelTimeSeriesView
 
 urlpatterns = [
-    path('/time-series', TimeSeriesView.as_view()),
+    path('/channel/timeseries', ChannelTimeSeriesView.as_view()),
 ]
