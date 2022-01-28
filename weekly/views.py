@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from utils.get_tuple import get_tuple
 from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
-
+from utils.get_last_sunday import get_last_sunday
 
 class TimeSeriesView(View):
 
@@ -17,7 +17,7 @@ class TimeSeriesView(View):
             "sales_kor_retail_cy":"국내",
             "sales_dutyfwhole_cy":"면세RF도매",
             "sales_chn_cy":"중국",
-            "sales_chn_cy":"홍대마",
+            "sales_chn_cy":"홍마대",
         }
 
     def get_query(self, *args, **kwargs):
@@ -72,12 +72,16 @@ ORDER BY 1
             adult_kid = request.GET["adult_kid"]
             start_date = request.GET["start_date"]
             end_date = request.GET["end_date"]
+            end_date_this_week = request.GET["end_date_this_week"]
             season = request.GET.getlist("season",None)
             sub_category = request.GET.getlist("sub_category",None)
             connect =request.connect
 
-            sub_category = get_tuple(sub_category)
+            end_date = get_last_sunday(end_date)
+            end_date_this_week = get_last_sunday(end_date_this_week)
+
             season = get_tuple(season)
+            sub_category = get_tuple(sub_category)
 
             query = self.get_query(
                 brand = brand,
@@ -86,7 +90,7 @@ ORDER BY 1
                 adult_kid = adult_kid,
                 start_date = start_date,
                 end_date = end_date,
-                end_date_this_week = end_date,
+                end_date_this_week = end_date_this_week,
                 season = season,
             )
         
