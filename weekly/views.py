@@ -10,6 +10,90 @@ from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
 
 
+class SubcategoryTimeSeriesView(View):
+
+    def get_query(self, *args, **kwargs):
+        query = """
+        
+SELECT TO_CHAR(end_dt,'yy.mm.dd') AS end_date
+     , sub_cat_nm
+     , SUM(sale_nml_qty_cns + sale_ret_qty_cns) as qty
+FROM prcs.db_scs_w a,
+     prcs.db_prdt b
+WHERE a.brd_cd = b.brd_cd
+  AND a.prdt_cd = b.prdt_cd
+  AND a.brd_cd = '{para_brand}'
+  AND a.sesn IN {para_season}
+  AND cat_nm = '{para_category}'
+  AND sub_cat_nm IN {para_sub_category}
+  AND adult_kids_nm = '{para_adult_kids}'
+  AND end_dt BETWEEN '{para_start_dt}' AND '{para_end_dt_this_week}'
+GROUP BY end_date
+       , sub_cat_nm
+ORDER BY end_date, sub_cat_nm
+
+
+        """.format(
+            para_brand = kwargs["brand"],
+            para_season = kwargs["season"],
+            para_category = kwargs["category"],
+            para_sub_category = kwargs["sub_category"],
+            para_adult_kids = kwargs["adult_kid"],
+            para_start_dt = kwargs["start_date"],
+            para_end_dt_this_week = kwargs["end_date_this_week"],
+        )
+        return query
+
+    @connect_redshift
+    def get(self, request, *args, **kwargs):
+        try:
+            brand = request.GET["brand"]
+            category = request.GET["category"]
+            adult_kid = request.GET["adult_kid"]
+            start_date = request.GET["start_date"]
+            end_date_this_week = request.GET["end_date_this_week"]
+            season = request.GET.getlist("season", None)
+            sub_category = request.GET.getlist("sub_category", None)
+            connect = request.connect
+
+            end_date_this_week = get_last_sunday(end_date_this_week)
+
+            season = get_tuple(season)
+            sub_category = get_tuple(sub_category)
+
+            query = self.get_query(
+                brand = brand,
+                category = category,
+                sub_category = sub_category,
+                adult_kid = adult_kid,
+                start_date = start_date,
+                end_date_this_week = end_date_this_week,
+                season = season,
+            )
+            redshift_data = RedshiftData(connect, query)
+            data = redshift_data.get_data()
+
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
+            pivot_data = data\
+                        .pivot(index="end_date", columns="sub_cat_nm", values="qty")\
+                        .fillna(0)
+
+            pivot_data.columns = pivot_data.columns.values
+            pivot_data.reset_index(inplace=True)
+            columns = pivot_data.columns.tolist()
+
+            result = [{
+                column:item[column] for column in columns
+            }for __, item in pivot_data.iterrows()]
+            
+            return JsonResponse({"message":"success","data":result}, status=200)
+
+        except KeyError as e:
+            return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
+
+
 class ChannelTimeSeriesView(View):
 
     def __init__(self):
@@ -97,6 +181,8 @@ ORDER BY 1
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
             
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":self.query}, status=400)
             result = [{
                 "end_date": item["end_dt"],
                 "sales_kor_cy": item["sales_kor_cy"],

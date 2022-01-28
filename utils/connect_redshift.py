@@ -21,5 +21,9 @@ def connect_redshift(func):
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, 'message', str(e))}, status=400)
+        
+        finally:
+            if connect:
+                connect.close()
 
     return wrapper

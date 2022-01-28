@@ -14,4 +14,4 @@ class RedshiftData:
             return data
 
         except:
-            return JsonResponse({"message":"QUERY_ERROR","query":self.query}, status=400)
+            return None
