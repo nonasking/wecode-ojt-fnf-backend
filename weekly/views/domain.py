@@ -74,7 +74,6 @@ ORDER BY end_date, domain1_nm
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
-            print(query)
             pivot_data = data\
                         .pivot(index="end_date", columns="domain1_nm", values="qty")\
                         .fillna(0)
