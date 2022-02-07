@@ -17,5 +17,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('weekly', include('weekly.urls')),
-    path('trees', include('trees.urls')),
+    path('category-list', include('trees.urls')),
 ]
