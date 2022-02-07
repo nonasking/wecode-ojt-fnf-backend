@@ -262,5 +262,6 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
                 }for __, item in data.iterrows()]
                 
             return JsonResponse({"message":"success", "data":result}, status=200)
+
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)

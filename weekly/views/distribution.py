@@ -104,6 +104,7 @@ ORDER BY end_date
             }for __, item in pivot_data.iterrows()]
 
             return JsonResponse({"message":"success","data":result}, status=200)
+
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
 
