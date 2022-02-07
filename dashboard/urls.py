@@ -18,5 +18,6 @@ from django.urls import path, include
 urlpatterns = [
     path('weekly', include('weekly.urls')),
     path('category-list', include('trees.urls')),
-    path('summary', include('summary.urls'))
+    path('summary', include('summary.urls')),
+    path('search', include('search.urls')),
 ]
