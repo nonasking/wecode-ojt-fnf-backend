@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'search',
     'summary',
     'weekly',
+    'trees',
 ]
 
 MIDDLEWARE = [

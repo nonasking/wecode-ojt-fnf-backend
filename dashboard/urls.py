@@ -16,5 +16,6 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('weekly', include('weekly.urls'))
+    path('weekly', include('weekly.urls')),
+    path('trees', include('trees.urls')),
 ]
