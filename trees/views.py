@@ -22,37 +22,37 @@ class CategoryTreeView(View):
         return query
     
     def get_categories(self, brand, adult_kids, connect):
-        query = """
+        categories_query = """
         
-select distinct value
+SELECT DISTINCT value
 from (
-         select distinct cat_nm as value
-         from prcs.db_prdt
-         where brd_cd = '{brand}'
-           and adult_kids_nm = '{adult_kids}'
-           and cat_nm != 'TBA'
-           and ord_qty != 0
+         SELECT DISTINCT cat_nm AS value
+         FROM prcs.db_prdt
+         WHERE brd_cd = '{brand}'
+           AND adult_kids_nm = '{adult_kids}'
+           AND cat_nm != 'TBA'
+           AND ord_qty != 0
 --         union all
---         select distinct cat_nm as value
---         from prcs.db_srch_kwd_naver_mst
---         where brd_cd = '{brand}'
---           and adult_kids = '{adult_kids}'
---           and comp_type != '라이프스타일'
---           and cat_nm != '일반'
+--         SELECT DISTINCT cat_nm AS value
+--         FROM prcs.db_srch_kwd_naver_mst
+--         WHERE brd_cd = '{brand}'
+--           AND adult_kids = '{adult_kids}'
+--           AND comp_type != '라이프스타일'
+--           AND cat_nm != '일반'
      ) a
-order by 1        
+ORDER BY 1        
 
         """
-        categories_query = self.get_query(
-            query = query,
+        query = self.get_query(
+            query = categories_query,
             brand = brand,
             adult_kids = adult_kids,
         )
 
-        categories_redshift_data = RedshiftData(connect, categories_query)
-        categories_data = categories_redshift_data.get_data()
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
 
-        categories_list = categories_data.values.tolist()
+        categories_list = data.values.tolist()
 
         result = []
         for category in categories_list:
@@ -61,35 +61,35 @@ order by 1
         return result
     
     def get_subcategories(self, brand, adult_kids, connect):
-        query = """
+        subcategories_query = """
 
-select distinct sub_cat_nm as value, cat_nm as parent_value
-from (
-         select distinct cat_nm, sub_cat_nm
-         from prcs.db_prdt
-         where brd_cd = '{brand}'
-           and adult_kids_nm = '{adult_kids}'
-           and ord_qty != 0
+SELECT DISTINCT sub_cat_nm AS value, cat_nm AS parent_value
+FROM (
+         SELECT DISTINCT cat_nm, sub_cat_nm
+         FROM prcs.db_prdt
+         WHERE brd_cd = '{brand}'
+           AND adult_kids_nm = '{adult_kids}'
+           AND ord_qty != 0
 --         union all
---         select distinct cat_nm, sub_cat_nm
---         from prcs.db_srch_kwd_naver_mst
---         where brd_cd = '{brand}'
---           and adult_kids = '{adult_kids}'
---           and comp_type != '라이프스타일'
---           and cat_nm != '일반'
+--         SELECT DISTINCT cat_nm, sub_cat_nm
+--         FROM prcs.db_srch_kwd_naver_mst
+--         WHERE brd_cd = '{brand}'
+--           AND adult_kids = '{adult_kids}'
+--           AND comp_type != '라이프스타일'
+--           AND cat_nm != '일반'
      ) a
-order by sub_cat_nm
+ORDER BY sub_cat_nm
         """
-        subcategories_query = self.get_query(
-            query =query,
+        query = self.get_query(
+            query = subcategories_query,
             brand = brand,
             adult_kids = adult_kids,
         )
             
-        subcategories_redshift_data = RedshiftData(connect, subcategories_query)
-        subcategories_data = subcategories_redshift_data.get_data()
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
 
-        subcategories_dicts = subcategories_data.to_dict('records')
+        subcategories_dicts = data.to_dict('records')
 
         result = {}
         for dict in subcategories_dicts:
@@ -101,28 +101,28 @@ order by sub_cat_nm
         return result
 
     def get_seasons(self, brand, adult_kids, connect):
-        query = """
+        seasons_query = """
 
-select a.*, row_number() over (order by value desc) as id
-from (
-         select distinct trim(sesn) as value
-         from prcs.db_prdt
-         where brd_cd = '{brand}'
-           and ord_qty != 0
-         order by 1 desc
+SELECT a.*, row_number() OVER (order by value desc) AS id
+FROM (
+         SELECT DISTINCT trim(sesn) AS value
+         FROM prcs.db_prdt
+         WHERE brd_cd = '{brand}'
+           AND ord_qty != 0
+         ORDER BY 1 desc
      ) a
-order by id
+ORDER BY id
         """
-        seasons_query = self.get_query(
-            query = query,
+        query = self.get_query(
+            query = seasons_query,
             brand = brand,
             adult_kids = adult_kids,
         )
 
-        seasons_redshift_data = RedshiftData(connect, seasons_query)
-        seasons_data = seasons_redshift_data.get_data()
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
 
-        result = seasons_data.to_dict('records')
+        result = data.to_dict('records')
 
         return result
 
