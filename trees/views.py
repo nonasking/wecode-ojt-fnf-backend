@@ -2,7 +2,6 @@ import json
 import psycopg2
 import pandas as pd
 import pandas.io.sql as psql
-import openpyxl
 
 from django.http import JsonResponse
 from django.views import View
@@ -13,6 +12,22 @@ from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
 
 class CategoryTreeView(View):
+
+    @connect_redshift
+    def get(self, request, *args, **kwargs):
+        try:
+            brand = request.GET["brand"]
+            adult_kids = request.GET["adult_kids"]
+            connect =request.connect
+            
+            categories = self.get_categories(brand, adult_kids, connect)
+            subcategories = self.get_subcategories(brand, adult_kids, connect)
+            seasons = self.get_seasons(brand, adult_kids, connect)
+
+            return JsonResponse({"message":"success", "categories":categories, "subcategories":subcategories, 'seasons':seasons}, status=200)
+        
+        except KeyError as e:
+            return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
 
     def get_query(self, query, *args, **kwargs):
         query = query.format(
@@ -25,7 +40,7 @@ class CategoryTreeView(View):
         categories_query = """
         
 SELECT DISTINCT value
-from (
+FROM (
          SELECT DISTINCT cat_nm AS value
          FROM prcs.db_prdt
          WHERE brd_cd = '{brand}'
@@ -121,23 +136,8 @@ ORDER BY id
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
-
-        result = data.to_dict('records')
+        
+        result = data['value'].tolist()
 
         return result
 
-    @connect_redshift
-    def get(self, request, *args, **kwargs):
-        try:
-            brand = request.GET["brand"]
-            adult_kids = request.GET["adult_kids"]
-            connect =request.connect
-            
-            categories = self.get_categories(brand, adult_kids, connect)
-            subcategories = self.get_subcategories(brand, adult_kids, connect)
-            seasons = self.get_seasons(brand, adult_kids, connect)
-
-            return JsonResponse({"message":"success", "categories":categories, "subcategories":subcategories, 'seasons':seasons}, status=200)
-        
-        except KeyError as e:
-            return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
