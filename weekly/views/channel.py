@@ -57,7 +57,7 @@ ORDER BY 1
             para_season = kwargs["season"],
             para_category = kwargs["category"],
             para_sub_category = kwargs["sub_category"],
-            para_adult_kids = kwargs["adult_kid"],
+            para_adult_kids = kwargs["adult_kids"],
             para_start_dt = kwargs["start_date"],
             para_end_dt = kwargs["end_date"],
             para_end_dt_this_week = kwargs["end_date_this_week"],
@@ -69,7 +69,7 @@ ORDER BY 1
         try:
             brand = request.GET["brand"]
             category = request.GET["category"]
-            adult_kid = request.GET["adult_kid"]
+            adult_kids = request.GET["adult_kids"]
             start_date = request.GET["start_date"]
             end_date = request.GET["end_date"]
             end_date_this_week = request.GET["end_date_this_week"]
@@ -87,7 +87,7 @@ ORDER BY 1
                 brand = brand,
                 category = category,
                 sub_category = sub_category,
-                adult_kid = adult_kid,
+                adult_kids = adult_kids,
                 start_date = start_date,
                 end_date = end_date,
                 end_date_this_week = end_date_this_week,
@@ -264,7 +264,7 @@ ORDER BY sales_cy DESC , cls
             para_season_py = kwargs['season_py'],
             para_category = kwargs['category'],
             para_sub_category = kwargs['sub_category'],
-            para_adult_kids = kwargs['adult_kid'],
+            para_adult_kids = kwargs['adult_kids'],
             para_end_dt_this_week = kwargs['end_date_this_week'],
         )
 
@@ -275,7 +275,7 @@ ORDER BY sales_cy DESC , cls
         try:
             brand = request.GET["brand"]
             category = request.GET["category"]
-            adult_kid = request.GET["adult_kids"]
+            adult_kids = request.GET["adult_kids"]
             start_date = request.GET["start_date"]
             end_date = request.GET["end_date"]
             end_date_this_week = request.GET["end_date_this_week"]
@@ -294,7 +294,7 @@ ORDER BY sales_cy DESC , cls
                  brand = brand,
                  category = category,
                  sub_category = sub_category,
-                 adult_kid = adult_kid,
+                 adult_kids = adult_kids,
                  season = season,
                  season_py = season_py,
                  end_date_this_week = end_date_this_week,

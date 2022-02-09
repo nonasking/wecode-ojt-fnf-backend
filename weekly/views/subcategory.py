@@ -35,7 +35,7 @@ ORDER BY end_date, sub_cat_nm
             para_season = kwargs["season"],
             para_category = kwargs["category"],
             para_sub_category = kwargs["sub_category"],
-            para_adult_kids = kwargs["adult_kid"],
+            para_adult_kids = kwargs["adult_kids"],
             para_start_dt = kwargs["start_date"],
             para_end_dt_this_week = kwargs["end_date_this_week"],
         )
@@ -46,7 +46,7 @@ ORDER BY end_date, sub_cat_nm
         try:
             brand = request.GET["brand"]
             category = request.GET["category"]
-            adult_kid = request.GET["adult_kid"]
+            adult_kids = request.GET["adult_kids"]
             start_date = request.GET["start_date"]
             end_date_this_week = request.GET["end_date_this_week"]
             season = request.GET.getlist("season", None)
@@ -62,7 +62,7 @@ ORDER BY end_date, sub_cat_nm
                 brand = brand,
                 category = category,
                 sub_category = sub_category,
-                adult_kid = adult_kid,
+                adult_kids = adult_kids,
                 start_date = start_date,
                 end_date_this_week = end_date_this_week,
                 season = season,
@@ -213,7 +213,7 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
             para_season_py = kwargs['season_py'],
             para_category = kwargs['category'],
             para_sub_category = kwargs['sub_category'],
-            para_adult_kids = kwargs['adult_kid'],
+            para_adult_kids = kwargs['adult_kids'],
             para_end_dt_this_week=kwargs['end_date_this_week'],
         )
 
@@ -224,7 +224,7 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
         try:
             brand = request.GET["brand"]
             category = request.GET["category"]
-            adult_kid = request.GET["adult_kid"]
+            adult_kids = request.GET["adult_kids"]
             start_date = request.GET["start_date"]
             end_date = request.GET["end_date"]
             end_date_this_week = request.GET["end_date_this_week"]
@@ -243,7 +243,7 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
                  brand = brand,
                  category = category,
                  sub_category = sub_category,
-                 adult_kid = adult_kid,
+                 adult_kids = adult_kids,
                  season = season,
                  season_py = season_py,
                  end_date_this_week = end_date_this_week,
