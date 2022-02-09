@@ -47,7 +47,7 @@ FROM (
            AND adult_kids_nm = '{adult_kids}'
            AND cat_nm != 'TBA'
            AND ord_qty != 0
---         union all
+--         UNION ALL
 --         SELECT DISTINCT cat_nm AS value
 --         FROM prcs.db_srch_kwd_naver_mst
 --         WHERE brd_cd = '{brand}'
@@ -66,12 +66,9 @@ ORDER BY 1
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
-
-        categories_list = data.values.tolist()
-
-        result = []
-        for category in categories_list:
-            result += category
+        data = data.to_dict('list')
+        
+        result = data['value']
                 
         return result
     
@@ -85,7 +82,7 @@ FROM (
          WHERE brd_cd = '{brand}'
            AND adult_kids_nm = '{adult_kids}'
            AND ord_qty != 0
---         union all
+--         UNION ALL
 --         SELECT DISTINCT cat_nm, sub_cat_nm
 --         FROM prcs.db_srch_kwd_naver_mst
 --         WHERE brd_cd = '{brand}'
@@ -103,16 +100,11 @@ ORDER BY sub_cat_nm
             
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+        data = data.groupby('parent_value').agg({'value':lambda x: list(x)})
+        data = data.to_dict()
 
-        subcategories_dicts = data.to_dict('records')
+        result = data['value']
 
-        result = {}
-        for dict in subcategories_dicts:
-            if dict['parent_value'] not in result.keys():
-                result[dict['parent_value']] = [dict['value']]
-            elif dict['parent_value'] in result.keys():
-                result[dict['parent_value']].append(dict['value'])
-        
         return result
 
     def get_seasons(self, brand, adult_kids, connect):
@@ -124,7 +116,7 @@ FROM (
          FROM prcs.db_prdt
          WHERE brd_cd = '{brand}'
            AND ord_qty != 0
-         ORDER BY 1 desc
+         ORDER BY 1 DESC
      ) a
 ORDER BY id
         """
