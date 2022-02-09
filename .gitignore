@@ -365,3 +365,5 @@ my_settings.py
 db_uploader.py
 upload.py
 csv/
+
+*.ipynb

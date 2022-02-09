@@ -2,7 +2,6 @@ import json
 import psycopg2
 import pandas as pd
 import pandas.io.sql as psql
-import openpyxl
 
 from django.views import View
 from django.http import JsonResponse

@@ -6,6 +6,6 @@ from summary.views.salesweekly import WeeklySalesSummaryView
 
 urlpatterns = [
     path('/sales-summary-acc', SalesSummaryAccView.as_view()),
-    path('/sales-summary-acc-sesn', SalesSummaryAccSesnView.as_view()),
+    path('/sales-summary-acc-season', SalesSummaryAccSesnView.as_view()),
     path('/weekly-sales-summary', WeeklySalesSummaryView.as_view()),    
 ]
