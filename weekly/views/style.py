@@ -38,9 +38,9 @@ WITH main AS (SELECT style_cd,
                        WHERE a.brd_cd = b.brd_cd
                          AND a.prdt_cd = b.prdt_cd
                          AND a.brd_cd = '{para_brand}'
-                         AND a.sesn IN ({para_season})
+                         AND a.sesn IN {para_season}
                          AND cat_nm = '{para_category}'
-                         AND sub_cat_nm IN ({para_sub_category})
+                         AND sub_cat_nm IN {para_sub_category}
                          AND adult_kids_nm = '{para_adult_kids}'
                          AND end_dt BETWEEN '{para_end_dt_this_week}' - 7 * 3 AND '{para_end_dt_this_week}'
                    ) a1
@@ -67,16 +67,55 @@ FROM (
          LEFT OUTER JOIN prcs.db_style_img b ON (a.style_cd = b.style_cd AND b.default_yn = true)
 ORDER BY week_sale_qty_cy DESC
         """.format(
-            para_brand=self._para['para_brand'],
-            para_season=self._para['para_season'],
-            para_season_py=self._para['para_season_py'],
-            para_season_py2=self._para['para_season_py2'],
-            para_category=self._para['para_category'],
-            para_sub_category=self._para['para_sub_category'],
-            para_adult_kids=self._para['para_adult_kids'],
-            para_start_dt=self.get_last_sunday(self._para['para_start_dt']),
-            para_end_dt=self.get_last_sunday(self._para['para_end_dt']),
-            para_end_dt_this_week=self.get_last_sunday(self._para['para_end_dt_this_week']),
+            para_brand=kwargs['brand'],
+            para_season=kwargs['season'],
+            para_category=kwargs['category'],
+            para_sub_category = kwargs['sub_category'],
+            para_adult_kids = kwargs['adult_kids'],
+            para_end_dt_this_week = kwargs['end_date_this_week'],
         )
 
         return query
+
+    @connect_redshift
+    def get(self, request, *args, **kwargs):
+        try:
+            brand = request.GET["brand"]
+            category = request.GET["category"]
+            adult_kids = request.GET["adult_kids"]
+            start_date = request.GET["start_date"]
+            end_date = request.GET["end_date"]
+            end_date_this_week = request.GET["end_date_this_week"]
+            season = request.GET.getlist("season",None)
+            sub_category = request.GET.getlist("sub_category",None)
+            connect =request.connect
+
+            end_date_this_week = get_last_sunday(end_date_this_week)
+            season_py = get_previous_season(season)
+
+            season = get_tuple(season)
+            season_py = get_tuple(season_py)
+            sub_category = get_tuple(sub_category)
+
+            query = self.get_query(
+                 brand = brand,
+                 category = category,
+                 sub_category = sub_category,
+                 adult_kids = adult_kids,
+                 season = season,
+                 end_date_this_week = end_date_this_week,
+            )
+
+            redshift_data = RedshiftData(connect, query)
+            data = redshift_data.get_data()
+
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
+            column = ["url", "week_sale_qty_cy", "stock_qty", "woi", "sale_rate", "week_ratio", "prdt_nm", "style_cd"]
+            result=data[column].to_dict("records")
+
+            return JsonResponse({"message":"success", "data":result}, status=200)
+
+        except KeyError as e:
+            return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)

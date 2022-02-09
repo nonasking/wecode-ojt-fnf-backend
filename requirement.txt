@@ -5,3 +5,4 @@ django-extensions==3.1.5
 PyJWT==2.3.0
 psycopg2-binary==2.9.3
 pandas==1.4.0
+SQLAlchemy==1.4.31
