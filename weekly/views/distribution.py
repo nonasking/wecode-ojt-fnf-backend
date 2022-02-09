@@ -53,7 +53,7 @@ ORDER BY end_date
             para_season = kwargs["season"],
             para_category = kwargs["category"],
             para_sub_category = kwargs["sub_category"],
-            para_adult_kids = kwargs["adult_kid"],
+            para_adult_kids = kwargs["adult_kids"],
             para_start_dt = kwargs["start_date"],
             para_end_dt_this_week = kwargs["end_date_this_week"],
         )
@@ -65,7 +65,7 @@ ORDER BY end_date
         try:
             brand = request.GET["brand"]
             category = request.GET["category"]
-            adult_kid = request.GET["adult_kid"]
+            adult_kids = request.GET["adult_kids"]
             start_date = request.GET["start_date"]
             end_date_this_week = request.GET["end_date_this_week"]
             season = request.GET.getlist("season", None)
@@ -81,7 +81,7 @@ ORDER BY end_date
                 brand = brand,
                 category = category,
                 sub_category = sub_category,
-                adult_kid = adult_kid,
+                adult_kids = adult_kids,
                 start_date = start_date,
                 end_date_this_week = end_date_this_week,
                 season = season,
@@ -114,77 +114,77 @@ class DistributionTableView(View):
 
     def get_query(self, *args, **kwargs):
         query="""
-with rds as (
-    select anal_dist_type_nm
-         , sale_nml_sale_amt + sale_ret_sale_amt as sales_cy
-         , sale_nml_qty + sale_ret_qty           as qty_cy
-         , 0                                     as sales_py
-         , 0                                     as qty_py
-    from prcs.db_sh_scs_w_rpt a,
+WITH rds AS (
+    SELECT anal_dist_type_nm
+         , sale_nml_sale_amt + sale_ret_sale_amt AS sales_cy
+         , sale_nml_qty + sale_ret_qty           AS qty_cy
+         , 0                                     AS sales_py
+         , 0                                     AS qty_py
+    FROM prcs.db_sh_scs_w_rpt a,
          prcs.db_shop b,
          prcs.db_prdt c
-    where a.brd_cd = b.brd_cd
-      and a.shop_id = b.shop_id
-      and a.prdt_cd = c.prdt_cd
-      and mng_type = 'A'
-      and anal_cntry = 'KO'
-      and a.brd_cd = '{para_brand}'
-      and a.sesn in ({para_season})
-      and cat_nm = '{para_category}'
-      and adult_kids_nm = '{para_adult_kids}'
-      and sub_cat_nm in {para_sub_category}
-      and end_dt = '{para_end_dt_this_week}'
-    union all
-    select anal_dist_type_nm
-         , 0                                     as sales_cy
-         , 0                                     as qty_cy
-         , sale_nml_sale_amt + sale_ret_sale_amt as sales_py
-         , sale_nml_qty + sale_ret_qty           as qty_py
-    from prcs.db_sh_scs_w_rpt a,
+    WHERE a.brd_cd = b.brd_cd
+      AND a.shop_id = b.shop_id
+      AND a.prdt_cd = c.prdt_cd
+      AND mng_type = 'A'
+      AND anal_cntry = 'KO'
+      AND a.brd_cd = '{para_brand}'
+      AND a.sesn IN {para_season}
+      AND cat_nm = '{para_category}'
+      AND adult_kids_nm = '{para_adult_kids}'
+      AND sub_cat_nm IN {para_sub_category}
+      AND end_dt = '{para_end_dt_this_week}'
+    UNION ALL
+    SELECT anal_dist_type_nm
+         , 0                                     AS sales_cy
+         , 0                                     AS qty_cy
+         , sale_nml_sale_amt + sale_ret_sale_amt AS sales_py
+         , sale_nml_qty + sale_ret_qty           AS qty_py
+    FROM prcs.db_sh_scs_w_rpt a,
          prcs.db_shop b,
          prcs.db_prdt c
-    where a.brd_cd = b.brd_cd
-      and a.shop_id = b.shop_id
-      and a.prdt_cd = c.prdt_cd
-      and mng_type = 'A'
-      and anal_cntry = 'KO'
-      and a.brd_cd = '{para_brand}'
-      and a.sesn in {para_season_py}
-      and cat_nm = '{para_category}'
-      and adult_kids_nm = '{para_adult_kids}'
-      and sub_cat_nm in {para_sub_category}
-      and end_dt = '{para_end_dt_this_week}'-364
+    WHERE a.brd_cd = b.brd_cd
+      AND a.shop_id = b.shop_id
+      AND a.prdt_cd = c.prdt_cd
+      AND mng_type = 'A'
+      AND anal_cntry = 'KO'
+      AND a.brd_cd = '{para_brand}'
+      AND a.sesn IN {para_season_py}
+      AND cat_nm = '{para_category}'
+      AND adult_kids_nm = '{para_adult_kids}'
+      AND sub_cat_nm IN {para_sub_category}
+      AND end_dt = '{para_end_dt_this_week}'-364
 )
-select *
-from (
-    select anal_dist_type_nm as cls
-         , case when sum(sales_cy) over () = 0 then 0 else round(sales_cy::numeric / sum(sales_cy) over () * 100) end as ratio
-         , case when qty_py = 0 then 0 else round(qty_cy::numeric / qty_py * 100) end                           as growth
+SELECT *
+FROM (
+    SELECT anal_dist_type_nm AS cls
+         , CASE WHEN SUM(sales_cy) OVER () = 0 THEN 0 ELSE ROUND(sales_cy::NUMERIC / SUM(sales_cy) OVER () * 100) END AS ratio
+         , CASE WHEN qty_py = 0 THEN 0 ELSE ROUND(qty_cy::NUMERIC / qty_py * 100) END                                 AS growth
          , qty_cy,qty_py, sales_cy
-    from (
-             select anal_dist_type_nm
-                  , sum(sales_cy) as sales_cy
-                  , sum(qty_cy)   as qty_cy
-                  , sum(sales_py) as sales_py
-                  , sum(qty_py)   as qty_py
-             from rds
-             group by anal_dist_type_nm
+    FROM (
+             SELECT anal_dist_type_nm
+                  , SUM(sales_cy) AS sales_cy
+                  , SUM(qty_cy)   AS qty_cy
+                  , SUM(sales_py) AS sales_py
+                  , SUM(qty_py)   AS qty_py
+             FROM rds
+             GROUP BY anal_dist_type_nm
          ) a
-    union all
-    select anal_dist_type_nm as cls
-         , case when sum(sales_cy) over () = 0 then 0 else round(sales_cy::numeric / sum(sales_cy) over () * 100) end as ratio
-         , case when qty_py = 0 then 0 else round(qty_cy::numeric / qty_py * 100) end                           as growth
+    UNION ALL
+    SELECT anal_dist_type_nm AS cls
+         , CASE WHEN SUM(sales_cy) OVER () = 0 THEN 0 ELSE ROUND(sales_cy::NUMERIC / SUM(sales_cy) OVER () * 100) END AS ratio
+         , CASE WHEN qty_py = 0 THEN 0 ELSE ROUND(qty_cy::NUMERIC / qty_py * 100) END                                 AS growth
          , qty_cy,qty_py, sales_cy
-    from (
-             select 'Total' as anal_dist_type_nm
-                  , sum(sales_cy) as sales_cy
-                  , sum(qty_cy)   as qty_cy
-                  , sum(sales_py) as sales_py
-                  , sum(qty_py)   as qty_py
-             from rds
+    FROM (
+             SELECT 'Total' AS anal_dist_type_nm
+                  , SUM(sales_cy) AS sales_cy
+                  , SUM(qty_cy)   AS qty_cy
+                  , SUM(sales_py) AS sales_py
+                  , SUM(qty_py)   AS qty_py
+             FROM rds
          ) a
 )a2
-order by sales_cy desc
+ORDER BY sales_cy DESC
         """.format(
             para_brand=kwargs['brand'],
             para_season=kwargs['season'],
