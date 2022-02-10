@@ -11,6 +11,7 @@ from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
 from utils.get_previous_season import get_previous_season
+from utils.check_item import check_keys_in_dictionary
 
 
 # 판매 실적 요약(시즌누계)
@@ -185,14 +186,18 @@ order by term_cls
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            required_keys = ["brand", "categories", "adult-kids", "start-date",
+                             "end-date", "end-date-this-week", "seasons", "subcategories"]
+            check_keys_in_dictionary(request.GET, required_keys)
+
             brand = request.GET["brand"]
-            category = request.GET["category"]
-            adult_kid = request.GET["adult_kid"]
-            start_date = request.GET["start_date"]
-            end_date = request.GET["end_date"]
-            end_date_this_week = request.GET["end_date_this_week"]
-            season = request.GET.getlist("season",None)
-            sub_category = request.GET.getlist("sub_category",None)
+            category = request.GET["categories"]
+            adult_kid = request.GET["adult-kids"]
+            start_date = request.GET["start-date"]
+            end_date = request.GET["end-date"]
+            end_date_this_week = request.GET["end-date-this-week"]
+            season = request.GET.getlist("seasons",None)
+            sub_category = request.GET.getlist("subcategories",None)
             connect =request.connect
             
             end_date_this_week = get_last_sunday(end_date_this_week)
