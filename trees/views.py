@@ -17,7 +17,7 @@ class CategoryTreeView(View):
     def get(self, request, *args, **kwargs):
         try:
             brand = request.GET["brand"]
-            adult_kids = request.GET["adult_kids"]
+            adult_kids = request.GET["adult-kids"]
             connect =request.connect
             
             categories = self.get_categories(brand, adult_kids, connect)
