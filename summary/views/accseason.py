@@ -187,7 +187,7 @@ order by term_cls
     def get(self, request, *args, **kwargs):
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date",
-                             "end-date", "end-date-this-week", "seasons", "subcategories"]
+                             "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
 
             brand = request.GET["brand"]
@@ -195,7 +195,7 @@ order by term_cls
             adult_kid = request.GET["adult-kids"]
             start_date = request.GET["start-date"]
             end_date = request.GET["end-date"]
-            end_date_this_week = request.GET["end-date-this-week"]
+            end_date_this_week = request.GET["weekly-date"]
             season = request.GET.getlist("seasons",None)
             sub_category = request.GET.getlist("subcategories",None)
             connect =request.connect

@@ -66,14 +66,14 @@ ORDER BY end_date
     def get(self, request, *args, **kwargs):
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date",
-                             "end-date-this-week", "seasons", "subcategories"]
+                             "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
 
             brand = request.GET["brand"]
             category = request.GET["categories"]
             adult_kids = request.GET["adult-kids"]
             start_date = request.GET["start-date"]
-            end_date_this_week = request.GET["end-date-this-week"]
+            end_date_this_week = request.GET["weekly-date"]
             season = request.GET.getlist("seasons", None)
             sub_category = request.GET.getlist("subcategories", None)
             connect = request.connect
@@ -207,7 +207,7 @@ ORDER BY sales_cy DESC
     def get(self, request, *args, **kwargs):
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date",
-                             "end-date", "end-date-this-week", "seasons", "subcategories"]
+                             "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
 
             brand = request.GET["brand"]
@@ -215,7 +215,7 @@ ORDER BY sales_cy DESC
             adult_kids = request.GET["adult-kids"]
             start_date = request.GET["start-date"]
             end_date = request.GET["end-date"]
-            end_date_this_week = request.GET["end-date-this-week"]
+            end_date_this_week = request.GET["weekly-date"]
             season = request.GET.getlist("seasons",None)
             sub_category = request.GET.getlist("subcategories",None)
             connect =request.connect
