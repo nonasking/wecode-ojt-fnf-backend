@@ -293,7 +293,7 @@ class SearchCountCompetitorTimeSeriesView(View):
             data = redshift_data.get_data()
 
             if data.empty:
-                return JsonResponse({"message":"success", "data":}, status=200)
+                return JsonResponse({"message":"success", "data":[]}, status=200)
 
             # 상위 5개 회사 추리기
             five_competitors_data = data['ttl_qty_cy'].groupby(data['comp_brd_nm']).max()
