@@ -255,9 +255,10 @@ ORDER BY 1
         return query
     
     def filter_search_count(self, data, comp_type):
-        data = data[data['comp_type']==f'{comp_type}']
+        data = data[data['comp_type']== comp_type]
         data = data[['end_dt', 'search_qty_cy', 'search_qty_py']]
-        return data.to_dict('records')
+        result = data.to_dict('records')
+        return result
     
 # 경쟁사 검색어 추이 차트
 class SearchCountCompetitorTimeSeriesView(View):
@@ -296,13 +297,18 @@ class SearchCountCompetitorTimeSeriesView(View):
                 return JsonResponse({"message":"success", "data":[]}, status=200)
 
             # 상위 5개 회사 추리기
-            five_competitors_data = data['ttl_qty_cy'].groupby(data['comp_brd_nm']).max()
-            five_competitors_list = five_competitors_data.sort_values(ascending=False)[:5].index.tolist()  
+            top_competitors_data = data['ttl_qty_cy'].groupby(data['comp_brd_nm']).max()
+            top_competitors_list = top_competitors_data.sort_values(ascending=False).index.tolist()
+            
+            if len(top_competitors_list) > 5:
+                top_competitors_list = top_competitors_list[:5]
             
             brand_name = self.get_brand_name(data)
             
-            if brand_name not in five_competitors_list:
-                competitors_list = five_competitors_list + [brand_name]
+            if brand_name not in top_competitors_list:
+                competitors_list = top_competitors_list + [brand_name]
+            else:
+                competitors_list = top_competitors_list
             
             competitors_data = data[data['comp_brd_nm'].isin(competitors_list)]            
             
