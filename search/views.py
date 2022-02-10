@@ -296,10 +296,10 @@ class SearchCountCompetitorTimeSeriesView(View):
             five_competitors_data = data['ttl_qty_cy'].groupby(data['comp_brd_nm']).max()
             five_competitors_list = five_competitors_data.sort_values(ascending=False)[:5].index.tolist()  
             
-            self_brand_name = self.get_self_brand_name(data)
+            brand_name = self.get_brand_name(data)
             
-            if self_brand_name not in five_competitors_list:
-                competitors_list = five_competitors_list + ['MLB']
+            if brand_name not in five_competitors_list:
+                competitors_list = five_competitors_list + [brand_name]
             
             competitors_data = data[data['comp_brd_nm'].isin(competitors_list)]            
             
@@ -314,9 +314,9 @@ class SearchCountCompetitorTimeSeriesView(View):
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
-    def get_self_brand_name(self, data):
-        self_brand_data = data.loc[data['comp_type'] == '자사']
-        result = data = data.iloc[0]['comp_brd_nm']
+    def get_brand_name(self, data):
+        brand_data = data.loc[data['comp_type'] == '자사']
+        result = brand_data.iloc[0]['comp_brd_nm']
         return result
 
     def get_query(self, *args, **kwargs):
