@@ -5,5 +5,5 @@ from search.views import SearchCountCompetitorTimeSeriesView, SearchCountTableVi
 urlpatterns = [
     path('/timeseries/competitors',SearchCountCompetitorTimeSeriesView.as_view()),
     path('/table/<str:term>',SearchCountTableView.as_view()),
-    path('/timeseries/overall',SearchCountTimeSeriesOverallView.as_view()),
+    path('/timeseries/<str:type>',SearchCountTimeSeriesOverallView.as_view()),
 ]

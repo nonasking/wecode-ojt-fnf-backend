@@ -91,8 +91,8 @@ SELECT *
 FROM (
          SELECT '선택기간'                                                                                                   AS term_cls
               , comp_brd_nm                                                                                              AS competitor
-              , SUM(srch_cnt_cy)                                                                                         AS seach_qty_cy
-              , SUM(srch_cnt_py)                                                                                         AS seach_qty_py
+              , SUM(srch_cnt_cy)                                                                                         AS search_qty_cy
+              , SUM(srch_cnt_py)                                                                                         AS search_qty_py
               , case WHEN SUM(srch_cnt_py) = 0 THEN 0 ELSE ROUND(SUM(srch_cnt_cy)::numeric / SUM(srch_cnt_py) * 100) end AS growth
          FROM (
                   SELECT comp_brd_nm, comp_type, srch_cnt AS srch_cnt_cy, 0 AS srch_cnt_py
@@ -107,8 +107,8 @@ FROM (
          UNION ALL
          SELECT '주간'                                                                                                     AS term_cls
               , comp_brd_nm                                                                                              AS competitor
-              , SUM(srch_cnt_cy)                                                                                         AS seach_qty_cy
-              , SUM(srch_cnt_py)                                                                                         AS seach_qty_py
+              , SUM(srch_cnt_cy)                                                                                         AS search_qty_cy
+              , SUM(srch_cnt_py)                                                                                         AS search_qty_py
               , case WHEN SUM(srch_cnt_py) = 0 THEN 0 ELSE ROUND(SUM(srch_cnt_cy)::numeric / SUM(srch_cnt_py) * 100) end AS growth
          FROM (
                   SELECT comp_brd_nm, comp_type, srch_cnt AS srch_cnt_cy, 0 AS srch_cnt_py
@@ -121,7 +121,7 @@ FROM (
               ) a
          GROUP BY comp_brd_nm
      ) a
-ORDER BY term_cls, seach_qty_cy DESC
+ORDER BY term_cls, search_qty_cy DESC
 
 
         """. \
@@ -139,7 +139,7 @@ ORDER BY term_cls, seach_qty_cy DESC
 class SearchCountTimeSeriesOverallView(View):
 
     @connect_redshift
-    def get(self, request, *args, **kwargs):
+    def get(self, request, type, *args, **kwargs):
         try:
             brand = request.GET["brand"]
             category = request.GET["categories"]
@@ -168,11 +168,13 @@ class SearchCountTimeSeriesOverallView(View):
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
             
-            # 키 값 프론트와 맞추기(overall, self?)
-            overall_result = self.filter_search_count(data,'일반')
-            self_result = self.filter_search_count(data,'자사')
+            if type == 'brand':
+                result = self.filter_search_count(data,'일반')
+                
+            elif type == 'overall':
+                result = self.filter_search_count(data,'자사')
 
-            return JsonResponse({"message":"success", "일반":overall_result, '자사':self_result}, status=200)
+            return JsonResponse({"message":"success", 'data':result}, status=200)
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400) 
