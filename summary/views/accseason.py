@@ -20,91 +20,91 @@ class SalesSummaryAccSesnView(View):
     def get_query(self, *args, **kwargs): 
         query = """
 
-with sale as (
-    select '당해'                                         term_cls
-         , ac_stor_qty_kor                           as ac_stor_qty_kor
-         , sale_nml_qty_cns + sale_ret_qty_cns       as sale_qty_kor
-         , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns as ac_sale_qty_kor
-         , stock_qty                                 as stock_qty
-    from prcs.db_scs_w a,
+WITH sale AS (
+    SELECT '당해'                                         term_cls
+         , ac_stor_qty_kor                           AS ac_stor_qty_kor
+         , sale_nml_qty_cns + sale_ret_qty_cns       AS sale_qty_kor
+         , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns AS ac_sale_qty_kor
+         , stock_qty                                 AS stock_qty
+    FROM prcs.db_scs_w a,
          prcs.db_prdt b
-    where a.prdt_cd = b.prdt_cd
-      and a.brd_cd = '{para_brand}'
-      and a.sesn in {para_season} --당해
-      and cat_nm = '{para_category}'
-      and sub_cat_nm in {para_sub_category}
-      and adult_kids_nm = '{para_adult_kids}'
-      and end_dt = '{para_end_dt_this_week}'
-    union all
-    select '전년'                                         term_cls
-         , ac_stor_qty_kor                           as ac_stor_qty_kor
-         , sale_nml_qty_cns + sale_ret_qty_cns       as sale_qty_kor
-         , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns as ac_sale_qty_kor
-         , stock_qty                                 as stock_qty
-    from prcs.db_scs_w a,
+    WHERE a.prdt_cd = b.prdt_cd
+      AND a.brd_cd = '{para_brand}'
+      AND a.sesn in {para_season} --당해
+      AND cat_nm = '{para_category}'
+      AND sub_cat_nm in {para_sub_category}
+      AND adult_kids_nm = '{para_adult_kids}'
+      AND end_dt = '{para_end_dt_this_week}'
+    UNION ALL
+    SELECT '전년'                                         term_cls
+         , ac_stor_qty_kor                           AS ac_stor_qty_kor
+         , sale_nml_qty_cns + sale_ret_qty_cns       AS sale_qty_kor
+         , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns AS ac_sale_qty_kor
+         , stock_qty                                 AS stock_qty
+    FROM prcs.db_scs_w a,
          prcs.db_prdt b
-    where a.prdt_cd = b.prdt_cd
-      and a.brd_cd = '{para_brand}'
-      and a.sesn in {para_season_py} --전년
-      and cat_nm = '{para_category}'
-      and sub_cat_nm in {para_sub_category}
-      and adult_kids_nm = '{para_adult_kids}'
-      and end_dt = '{para_end_dt_this_week}' - 364
+    WHERE a.prdt_cd = b.prdt_cd
+      AND a.brd_cd = '{para_brand}'
+      AND a.sesn in {para_season_py} --전년
+      AND cat_nm = '{para_category}'
+      AND sub_cat_nm in {para_sub_category}
+      AND adult_kids_nm = '{para_adult_kids}'
+      AND end_dt = '{para_end_dt_this_week}' - 364
 ),
-     order_status as (
-         select '당해'  as term_cls
-              , b.qty as indc_qty
-         from prcs.dw_ord a,
+     order_status AS (
+         SELECT '당해'  AS term_cls
+              , b.qty AS indc_qty
+         FROM prcs.dw_ord a,
               prcs.dw_ord_scs b,
               prcs.db_prdt c
-         where a.prdt_cd = b.prdt_cd
-           and a.po_no = b.po_no
-           and a.prdt_cd = c.prdt_cd
-           and a.brd_cd = '{para_brand}'
-           and a.sesn in {para_season} --당해
-           and cat_nm = '{para_category}'
-           and sub_cat_nm in {para_sub_category}
-           and adult_kids_nm = '{para_adult_kids}'
-           and apv_stat = 'C'
-           and po_cntry in ('A', 'KR')
-           and po_cust_cntry != 'M'
-           and apv_dt <= '{para_end_dt_this_week}'
-         union all
-         select '전년'  as term_cls
-              , b.qty as indc_qty
-         from prcs.dw_ord a,
+         WHERE a.prdt_cd = b.prdt_cd
+           AND a.po_no = b.po_no
+           AND a.prdt_cd = c.prdt_cd
+           AND a.brd_cd = '{para_brand}'
+           AND a.sesn in {para_season} --당해
+           AND cat_nm = '{para_category}'
+           AND sub_cat_nm in {para_sub_category}
+           AND adult_kids_nm = '{para_adult_kids}'
+           AND apv_stat = 'C'
+           AND po_cntry in ('A', 'KR')
+           AND po_cust_cntry != 'M'
+           AND apv_dt <= '{para_end_dt_this_week}'
+         UNION ALL
+         SELECT '전년'  AS term_cls
+              , b.qty AS indc_qty
+         FROM prcs.dw_ord a,
               prcs.dw_ord_scs b,
               prcs.db_prdt c
-         where a.prdt_cd = b.prdt_cd
-           and a.po_no = b.po_no
-           and a.prdt_cd = c.prdt_cd
-           and a.brd_cd = '{para_brand}'
-           and a.sesn in {para_season_py} --전년
-           and cat_nm = '{para_category}'
-           and sub_cat_nm in {para_sub_category}
-           and adult_kids_nm = '{para_adult_kids}'
-           and po_cntry in ('A', 'KR')
-           and po_cust_cntry != 'M'
-           and apv_stat = 'C'
-           and apv_dt <= '{para_end_dt_this_week}' - 364
+         WHERE a.prdt_cd = b.prdt_cd
+           AND a.po_no = b.po_no
+           AND a.prdt_cd = c.prdt_cd
+           AND a.brd_cd = '{para_brand}'
+           AND a.sesn in {para_season_py} --전년
+           AND cat_nm = '{para_category}'
+           AND sub_cat_nm in {para_sub_category}
+           AND adult_kids_nm = '{para_adult_kids}'
+           AND po_cntry in ('A', 'KR')
+           AND po_cust_cntry != 'M'
+           AND apv_stat = 'C'
+           AND apv_dt <= '{para_end_dt_this_week}' - 364
      ),
-     season_end as (
-         select '전년'                                         term_cls
-              , ac_stor_qty_kor                           as ac_stor_qty_kor_season_end
-              , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns as ac_sale_qty_kor_season_end
-              , stock_qty                                 as stock_qty_season_end
-         from prcs.db_scs_w a,
+     season_end AS (
+         SELECT '전년'                                         term_cls
+              , ac_stor_qty_kor                           AS ac_stor_qty_kor_season_end
+              , ac_sale_nml_qty_cns + ac_sale_ret_qty_cns AS ac_sale_qty_kor_season_end
+              , stock_qty                                 AS stock_qty_season_end
+         FROM prcs.db_scs_w a,
               prcs.db_prdt b
-         where a.prdt_cd = b.prdt_cd
-           and a.brd_cd = '{para_brand}'
-           and a.sesn in {para_season_py} --전년
-           and cat_nm = '{para_category}'
-           and sub_cat_nm in {para_sub_category}
-           and adult_kids_nm = '{para_adult_kids}'
-           and (
-             select max(last_week)
-             from (
-                      select case
+         WHERE a.prdt_cd = b.prdt_cd
+           AND a.brd_cd = '{para_brand}'
+           AND a.sesn in {para_season_py} --전년
+           AND cat_nm = '{para_category}'
+           AND sub_cat_nm in {para_sub_category}
+           AND adult_kids_nm = '{para_adult_kids}'
+           AND (
+             SELECT max(last_week)
+             FROM (
+                      SELECT case
                                  when substring(a.sesn, 3, 1) = 'S'
                                      then date(date_trunc('week', date('20' || substring(a.sesn, 1, 2) || '0901'))) + 6
                                  when substring(a.sesn, 3, 1) = 'F'
@@ -113,62 +113,62 @@ with sale as (
                                  else
                                      date(date_trunc('week', date('20' || substring(a.sesn, 1, 2) || '1231'))) + 6
                                  end as last_week
-                      from prcs.db_scs_w a,
+                      FROM prcs.db_scs_w a,
                            prcs.db_prdt b
-                      where a.brd_cd = b.brd_cd
-                        and a.prdt_cd = b.prdt_cd
-                        and a.brd_cd = '{para_brand}'
-                        and cat_nm = '{para_category}'
-                        and adult_kids_nm = '{para_adult_kids}'
-                        and sub_cat_nm in {para_sub_category}
-                        and a.sesn in {para_season_py}
+                      WHERE a.brd_cd = b.brd_cd
+                        AND a.prdt_cd = b.prdt_cd
+                        AND a.brd_cd = '{para_brand}'
+                        AND cat_nm = '{para_category}'
+                        AND adult_kids_nm = '{para_adult_kids}'
+                        AND sub_cat_nm in {para_sub_category}
+                        AND a.sesn in {para_season_py}
                   ) a
          ) between start_dt and end_dt)
-select term_cls,
-       sum(indc_qty)                   as indc_qty,
-       sum(ac_stor_qty_kor)            as ac_stor_qty_kor,
-       sum(sale_qty_kor)               as sale_qty_kor,
-       sum(ac_sale_qty_kor)            as ac_sale_qty_kor,
-       sum(stock_qty)                  as stock_qty,
-       sum(ac_stor_qty_kor_season_end) as ac_stor_qty_kor_season_end,
-       sum(ac_sale_qty_kor_season_end) as ac_sale_qty_kor_season_end,
-       sum(stock_qty_season_end)       as stock_qty_season_end
-from (
-         select term_cls
+SELECT term_cls,
+       SUM(indc_qty)                   AS indc_qty,
+       SUM(ac_stor_qty_kor)            AS ac_stor_qty_kor,
+       SUM(sale_qty_kor)               AS sale_qty_kor,
+       SUM(ac_sale_qty_kor)            AS ac_sale_qty_kor,
+       SUM(stock_qty)                  AS stock_qty,
+       SUM(ac_stor_qty_kor_season_end) AS ac_stor_qty_kor_season_end,
+       SUM(ac_sale_qty_kor_season_end) AS ac_sale_qty_kor_season_end,
+       SUM(stock_qty_season_end)       AS stock_qty_season_end
+FROM (
+         SELECT term_cls
               , indc_qty
-              , 0 as ac_stor_qty_kor
-              , 0 as sale_qty_kor
-              , 0 as ac_sale_qty_kor
-              , 0 as stock_qty
-              , 0 as ac_stor_qty_kor_season_end
-              , 0 as ac_sale_qty_kor_season_end
-              , 0 as stock_qty_season_end
-         from order_status
-         union all
-         select term_cls
-              , 0 as indc_qty
+              , 0 AS ac_stor_qty_kor
+              , 0 AS sale_qty_kor
+              , 0 AS ac_sale_qty_kor
+              , 0 AS stock_qty
+              , 0 AS ac_stor_qty_kor_season_end
+              , 0 AS ac_sale_qty_kor_season_end
+              , 0 AS stock_qty_season_end
+         FROM order_status
+         UNION ALL
+         SELECT term_cls
+              , 0 AS indc_qty
               , ac_stor_qty_kor
               , sale_qty_kor
               , ac_sale_qty_kor
               , stock_qty
-              , 0 as ac_stor_qty_kor_season_end
-              , 0 as ac_sale_qty_kor_season_end
-              , 0 as stock_qty_season_end
-         from sale
-         union all
-         select term_cls
-              , 0 as indc_qty
-              , 0 as ac_stor_qty_kor
-              , 0 as sale_qty_kor
-              , 0 as ac_sale_qty_kor
-              , 0 as stock_qty
+              , 0 AS ac_stor_qty_kor_season_end
+              , 0 AS ac_sale_qty_kor_season_end
+              , 0 AS stock_qty_season_end
+         FROM sale
+         UNION ALL
+         SELECT term_cls
+              , 0 AS indc_qty
+              , 0 AS ac_stor_qty_kor
+              , 0 AS sale_qty_kor
+              , 0 AS ac_sale_qty_kor
+              , 0 AS stock_qty
               , ac_stor_qty_kor_season_end
               , ac_sale_qty_kor_season_end
               , stock_qty_season_end
-         from season_end
+         FROM season_end
      ) a
-group by term_cls
-order by term_cls
+GROUP BY term_cls
+ORDER BY term_cls
 
         """.format(
             para_brand=kwargs["brand"],
@@ -231,17 +231,17 @@ order by term_cls
             data.fillna(0, inplace=True)
             
             result = [{
-                "term_cls" : item["term_cls"],                       #해당년도
-                "indc_qty" : item["indc_qty"],                       #발주
-                "ac_stor_qty_kor" : item["ac_stor_qty_kor"],         #입고 
-                "sale_qty_kor" : item["sale_qty_kor"],            #주간판매
-                "ac_sale_qty_kor" : item["ac_sale_qty_kor"],         #누적판매
-                "stock_qty" : item["stock_qty"],                     #재고
-                "sales_rate" : "%0.f%%" % item["sales_rate"],                  #판매율
-                "ac_stor_qty_kor_season_end" : item["ac_stor_qty_kor_season_end"],   #입고
-                "ac_sale_qty_kor_season_end" : item["ac_sale_qty_kor_season_end"],   #판매
-                "stock_qty_season_end" : item["stock_qty_season_end"],               #재고
-                "season_end_sales_rate" : "%0.f%%" % item["season_end_sales_rate"]   #시즌마감 판매율
+                "term_cls"                   : item["term_cls"],                   #해당년도
+                "indc_qty"                   : item["indc_qty"],                   #발주
+                "ac_stor_qty_kor"            : item["ac_stor_qty_kor"],            #입고 
+                "sale_qty_kor"               : item["sale_qty_kor"],               #주간판매
+                "ac_sale_qty_kor"            : item["ac_sale_qty_kor"],            #누적판매
+                "stock_qty"                  : item["stock_qty"],                  #재고
+                "sales_rate"                 : item["sales_rate"],                 #판매율
+                "ac_stor_qty_kor_season_end" : item["ac_stor_qty_kor_season_end"], #입고
+                "ac_sale_qty_kor_season_end" : item["ac_sale_qty_kor_season_end"], #판매
+                "stock_qty_season_end"       : item["stock_qty_season_end"],       #재고
+                "season_end_sales_rate"      : item["season_end_sales_rate"]       #시즌마감 판매율
                 }for __, item in data.iterrows()
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
