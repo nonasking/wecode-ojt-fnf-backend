@@ -10,6 +10,7 @@ from utils.get_tuple import get_tuple
 from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
+from utils.check_item import check_keys_in_dictionary
 
 # 브랜드별 검색량 표(당해/전년/전년비) (주간/선택기간)
 class SearchCountTableView(View):
@@ -17,6 +18,9 @@ class SearchCountTableView(View):
     @connect_redshift
     def get(self, request, term, *args, **kwargs):
         try:
+            required_keys = ["brand", "categories", "adult-kids", "start-date", "weekly-date", "subcategories"]
+            check_keys_in_dictionary(request.GET, required_keys)
+            
             brand = request.GET["brand"]
             category = request.GET["categories"]
             adult_kids = request.GET["adult-kids"]
@@ -141,6 +145,9 @@ class SearchCountTimeSeriesOverallView(View):
     @connect_redshift
     def get(self, request, type, *args, **kwargs):
         try:
+            required_keys = ["brand", "categories", "adult-kids", "start-date", "end-date", "weekly-date", "subcategories"]
+            check_keys_in_dictionary(request.GET, required_keys)
+
             brand = request.GET["brand"]
             category = request.GET["categories"]
             adult_kids = request.GET["adult-kids"]
@@ -268,6 +275,9 @@ class SearchCountCompetitorTimeSeriesView(View):
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            required_keys = ["brand", "categories", "adult-kids", "start-date", "end-date", "weekly-date", "subcategories"]
+            check_keys_in_dictionary(request.GET, required_keys)
+            
             brand = request.GET["brand"]
             category = request.GET["categories"]
             adult_kids = request.GET["adult-kids"]
