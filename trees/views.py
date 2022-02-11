@@ -10,12 +10,16 @@ from utils.get_tuple import get_tuple
 from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
 from utils.get_last_sunday import get_last_sunday
+from utils.check_item import check_keys_in_dictionary
 
 class CategoryTreeView(View):
 
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            required_keys = ["brand", "adult-kids"]
+            check_keys_in_dictionary(request.GET, required_keys)
+            
             brand = request.GET["brand"]
             adult_kids = request.GET["adult-kids"]
             connect =request.connect
