@@ -323,8 +323,8 @@ class SearchCountCompetitorTimeSeriesView(View):
                 top_competitors_list = top_competitors_list[:5]
             
             brand_name = self.get_brand_name(data)
-            
-            if brand_name not in top_competitors_list:
+
+            if brand_name and brand_name not in top_competitors_list:
                 competitors_list = top_competitors_list + [brand_name]
             else:
                 competitors_list = top_competitors_list
@@ -344,6 +344,10 @@ class SearchCountCompetitorTimeSeriesView(View):
     
     def get_brand_name(self, data):
         brand_data = data.loc[data['comp_type'] == '자사']
+        
+        if brand_data.empty:
+            return None
+        
         result = brand_data.iloc[0]['comp_brd_nm']
         return result
 
