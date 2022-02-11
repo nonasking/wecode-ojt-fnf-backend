@@ -45,6 +45,9 @@ class SearchCountTableView(View):
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
 
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
             if term == 'weekly':
                 data = data[data['term_cls']=='주간']
             
@@ -56,7 +59,6 @@ class SearchCountTableView(View):
             
             return JsonResponse({"message":"success", "data":result}, status=200)
     
-
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
@@ -127,7 +129,6 @@ FROM (
      ) a
 ORDER BY term_cls, search_qty_cy DESC
 
-
         """. \
             format(
             para_brand=kwargs["brand"],
@@ -174,6 +175,9 @@ class SearchCountTimeSeriesOverallView(View):
         
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
+
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
             
             if type == 'brand':
                 result = self.filter_search_count(data,'자사')
@@ -305,6 +309,9 @@ class SearchCountCompetitorTimeSeriesView(View):
             redshift_data = RedshiftData(connect, query)
             data = redshift_data.get_data()
 
+            if data is None:
+                return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
             if data.empty:
                 return JsonResponse({"message":"success", "data":[]}, status=200)
 
@@ -387,7 +394,6 @@ FROM (
          ORDER BY 1
      ) a
 ORDER BY end_dt ASC, comp_brd_nm DESC
-        
 
         """. \
             format(

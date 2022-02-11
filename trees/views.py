@@ -70,6 +70,10 @@ ORDER BY 1
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
         data = data.to_dict('list')
         
         result = data['value']
@@ -95,6 +99,7 @@ FROM (
 --           AND cat_nm != '일반'
      ) a
 ORDER BY sub_cat_nm
+
         """
         query = self.get_query(
             query = subcategories_query,
@@ -104,6 +109,10 @@ ORDER BY sub_cat_nm
             
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+        
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
         data = data.groupby('parent_value').agg({'value':lambda x: list(x)})
         data = data.to_dict()
 
@@ -123,6 +132,7 @@ FROM (
          ORDER BY 1 DESC
      ) a
 ORDER BY id
+
         """
         query = self.get_query(
             query = seasons_query,
@@ -132,6 +142,9 @@ ORDER BY id
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
         
         result = data['value'].tolist()
 
