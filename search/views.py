@@ -176,10 +176,10 @@ class SearchCountTimeSeriesOverallView(View):
             data = redshift_data.get_data()
             
             if type == 'brand':
-                result = self.filter_search_count(data,'일반')
+                result = self.filter_search_count(data,'자사')
                 
             elif type == 'overall':
-                result = self.filter_search_count(data,'자사')
+                result = self.filter_search_count(data,'일반')
 
             return JsonResponse({"message":"success", 'data':result}, status=200)
 
