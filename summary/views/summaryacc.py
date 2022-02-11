@@ -208,13 +208,13 @@ ORDER BY term_cls
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
             
             result = [{
-                "term_cls": item["term_cls"],                       #해당년도
-                "int_stock_qty": item["int_stock_qty"],             #기초재고
-                "stor_qty_kor_term": item["stor_qty_kor_term"],     #주간입고 
-                "sale_qty_w	": item["sale_qty_w"],                  #주간판매
-                "avg_4wk_sale_qty": item["avg_4wk_sale_qty"],       #4주평균
-                "stock_kor": item["stock_kor"],                     #기말재고
-                "woi_4wks": item["woi_4wks"],                       #재고주수:4주평균     
+                "term_cls"          : item["term_cls"],          #해당년도
+                "int_stock_qty"     : item["int_stock_qty"],     #기초재고
+                "stor_qty_kor_term" : item["stor_qty_kor_term"], #주간입고 
+                "sale_qty_w	"       : item["sale_qty_w"],        #주간판매
+                "avg_4wk_sale_qty"  : item["avg_4wk_sale_qty"],  #4주평균
+                "stock_kor"         : item["stock_kor"],         #기말재고
+                "woi_4wks"          : item["woi_4wks"],          #재고주수:4주평균     
                 }for __, item in data.iterrows()
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
