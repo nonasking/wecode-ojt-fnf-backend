@@ -322,7 +322,7 @@ class SearchCountCompetitorTimeSeriesView(View):
             if len(top_competitors_list) > 5:
                 top_competitors_list = top_competitors_list[:5]
             
-            brand_name = self.get_brand_name(data)
+            brand_name = self.get_brand_name(brand)
 
             if brand_name and brand_name not in top_competitors_list:
                 competitors_list = top_competitors_list + [brand_name]
@@ -343,13 +343,9 @@ class SearchCountCompetitorTimeSeriesView(View):
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
-    def get_brand_name(self, data):
-        brand_data = data.loc[data['comp_type'] == '자사']
-        
-        if brand_data.empty:
-            return None
-        
-        result = brand_data.iloc[0]['comp_brd_nm']
+    def get_brand_name(self, brand):
+        brands = {'M':'MLB', 'I':'MLB Kids'}
+        result = brands.get(brand)
         return result
 
     def get_query(self, *args, **kwargs):
