@@ -334,7 +334,8 @@ class SearchCountCompetitorTimeSeriesView(View):
             competitors_data = competitors_data.pivot('end_dt', 'comp_brd_nm', 'search_qty_cy')
             competitors_data.columns = competitors_data.columns.values
             competitors_data.reset_index(inplace=True)
-            
+            competitors_data.fillna(0, inplace=True)
+
             result = competitors_data.to_dict('records')
 
             return JsonResponse({"message":"success", "data":result}, status=200)
