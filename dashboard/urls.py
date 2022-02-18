@@ -20,4 +20,5 @@ urlpatterns = [
     path('category-list', include('trees.urls')),
     path('summary', include('summary.urls')),
     path('search', include('search.urls')),
+    path('top20', include('top20.urls')),
 ]
