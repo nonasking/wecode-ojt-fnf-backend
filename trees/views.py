@@ -150,3 +150,197 @@ ORDER BY id
 
         return result
 
+class StyleRankingTreeView(View):
+    
+    @connect_redshift
+    def get(self, request, *args, **kwargs):
+        try:
+            required_keys = ["brand"]
+            check_keys_in_dictionary(request.GET, required_keys)
+            
+            brand = request.GET["brand"]
+            connect =request.connect
+            
+            categories = self.get_categories(brand, connect)
+            domains = self.get_domains(brand, connect)
+            seasons = self.get_seasons(brand, connect)
+            items = self.get_items(brand,connect)
+            adult_kids = self.get_adult_kids(brand,connect)
+
+            return JsonResponse({"message":"success", "categories":categories, 'domains':domains, 'seasons':seasons, 'items':items, 'adult_kids':adult_kids}, status=200)
+
+        except KeyError as e:
+            return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
+    
+    def get_query(self, query, *args, **kwargs):
+        query = query.format(
+            brand=kwargs["brand"],
+        )
+        return query
+    
+    def get_categories(self, brand, connect):
+        categories_query = """
+
+select distinct cat_nm as category, sub_cat_nm as sub_category
+from prcs.db_prdt
+where brd_cd = '{brand}'
+order by 1,2
+
+        """
+        query = self.get_query(
+            query = categories_query,
+            brand = brand,
+        )
+
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
+        data = data.groupby('category').agg({'sub_category':lambda x: list(x)})
+        data = data.to_dict()
+        
+        result = data['sub_category']
+        
+        result = [{'value':'p'+key, 'label':key, 'children':result[key]} for key in result]
+
+        for d in result:
+            d['children'] = [{'value':v, 'label':v} for v in d['children']]
+
+        return result
+    
+    def get_domains(self, brand, connect):
+        domains_query = """
+
+select case when domain1_nm is null then 'TBA' else domain1_nm end as domain
+from (
+         select distinct domain1_nm
+         from prcs.db_prdt
+         where brd_cd = '{brand}'
+     ) a
+order by 1
+
+            """
+        query = self.get_query(
+            query = domains_query,
+            brand = brand,
+        )
+
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
+
+        data['value'] = data['domain']
+        data.columns = ['value', 'label']        
+        
+        result = data.to_dict('records')
+        
+        return result
+
+    def get_seasons(self, brand, connect):
+        seasons_query = """
+
+select substring(sesn, 1, 2) as yy, sesn as season, sesn || '_' || sesn_sub_nm as subseason_nm
+from (
+         select distinct sesn, sesn_sub_nm
+         from prcs.db_prdt
+         where brd_cd = '{brand}'
+     ) a
+order by 1 desc, 2 desc, 3
+            """
+        query = self.get_query(
+            query = seasons_query,
+            brand = brand,
+        )
+
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
+
+        data = data.groupby(['yy', 'season'])
+        data = data.first()
+        data.columns = data.columns.values
+        data.reset_index(inplace=True)
+
+        seasons_dict = {}
+        for item in data.itertuples():
+            if item[1] not in seasons_dict.keys():
+                seasons_dict[item[1]] = [{'season': item[2], 'subseason': item[3]}]
+            elif item[1] in seasons_dict.keys():
+                seasons_dict[item[1]] += [{'season': item[2], 'subseason': item[3]}]
+
+        
+        result = [{
+            'value': 'pp'+key,
+            'label': key,
+            'children': [{
+                'value': 'p'+d['season'],
+                'label': d['season'],
+                'children': [{
+                    'value': d['subseason'],
+                    'label': d['subseason']
+                }]
+            } for d in value]
+        }for key,value in seasons_dict.items()]
+
+        return result
+
+    def get_items(self, brand, connect):
+        items_query = """
+
+    select distinct parent_prdt_kind_nm, prdt_kind_nm, item
+from prcs.db_prdt
+where brd_cd = '{brand}'
+
+        """
+        query = self.get_query(
+            query = items_query,
+            brand = brand,
+        )
+
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
+        
+        items_dict = {}
+        for item in data.itertuples():
+            if item[1] not in items_dict.keys():
+                items_dict[item[1]] = {item[2]: [item[3]]}
+            elif item[1] in items_dict.keys():
+                if item[2] not in items_dict[item[1]].keys():
+                    items_dict[item[1]][item[2]] = [item[3]]
+                elif item[2] in items_dict[item[1]].keys():
+                    items_dict[item[1]][item[2]] += [item[3]]
+        
+        result = [{
+            'value': 'pp'+key,
+            'label': key,
+            'children': [{
+                'value': 'p'+k,
+                'label': k,
+                'children': [{
+                    'value': vv,
+                    'label': vv
+                } for vv in v]
+            } for k,v in value.items()]
+        }for key,value in items_dict.items()]
+        
+        return result
+
+    def get_adult_kids(self, brand, connect):
+        adult_kids_query = """
+
+select distinct adult_kids_nm as adult_kids_nm
+from prcs.db_prdt
+where brd_cd = '{brand}'
+order by 1
+
+        """
+        query = self.get_query(
+            query = adult_kids_query,
+            brand = brand,
+        )
+
+        redshift_data = RedshiftData(connect, query)
+        data = redshift_data.get_data()
+
+        data['value'] = data['adult_kids_nm']
+        data.columns = ['value', 'label'] 
+
+        result = data.to_dict('records')
+        
+        return result
