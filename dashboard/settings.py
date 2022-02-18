@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'summary',
     'weekly',
     'trees',
+    'conditions',
 ]
 
 MIDDLEWARE = [

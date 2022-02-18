@@ -21,4 +21,5 @@ urlpatterns = [
     path('summary', include('summary.urls')),
     path('search', include('search.urls')),
     path('top20', include('top20.urls')),
+    path('conditions', include('conditions.urls')),
 ]
