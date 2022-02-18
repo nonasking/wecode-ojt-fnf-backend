@@ -132,6 +132,10 @@ from (
         if data is None:
             return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
+        data['sales_retail_cy_ratio'] = round((data['sales_retail_cy']/(data['sales_retail_cy']+data['sales_dutyrfwhole_cy']))*100,1)
+        data['sales_dutyrfwhole_cy_ratio'] = round((data['sales_dutyrfwhole_cy']/(data['sales_dutyrfwhole_cy']+data['sales_retail_cy']))*100,1)
+        data.fillna(0, inplace=True)
+
         result = data.to_dict('records')
 
         return result
