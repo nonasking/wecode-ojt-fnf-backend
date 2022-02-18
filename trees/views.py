@@ -251,31 +251,28 @@ order by 1 desc, 2 desc, 3
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
-
-        data = data.groupby(['yy', 'season'])
-        data = data.first()
-        data.columns = data.columns.values
-        data.reset_index(inplace=True)
-
+        
         seasons_dict = {}
         for item in data.itertuples():
             if item[1] not in seasons_dict.keys():
-                seasons_dict[item[1]] = [{'season': item[2], 'subseason': item[3]}]
+                seasons_dict[item[1]] = {item[2]: [item[3]]}
             elif item[1] in seasons_dict.keys():
-                seasons_dict[item[1]] += [{'season': item[2], 'subseason': item[3]}]
-
+                if item[2] not in seasons_dict[item[1]].keys():
+                    seasons_dict[item[1]][item[2]] = [item[3]]
+                elif item[2] in seasons_dict[item[1]].keys():
+                    seasons_dict[item[1]][item[2]] += [item[3]]
         
         result = [{
             'value': 'pp'+key,
             'label': key,
             'children': [{
-                'value': 'p'+d['season'],
-                'label': d['season'],
+                'value': 'p'+k,
+                'label': k,
                 'children': [{
-                    'value': d['subseason'],
-                    'label': d['subseason']
-                }]
-            } for d in value]
+                    'value': vv,
+                    'label': vv
+                } for vv in v]
+            } for k,v in value.items()]
         }for key,value in seasons_dict.items()]
 
         return result
