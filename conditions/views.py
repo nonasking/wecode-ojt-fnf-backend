@@ -140,7 +140,7 @@ from (
         data.columns = ['value']
         data['name'] = ['국내', '면세/RF/도매']
 
-        result = data.to_dict('record')
+        result = data.to_dict('records')
 
         return result
 
