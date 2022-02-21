@@ -9,6 +9,7 @@ from django.views import View
 from utils.connect_redshift import connect_redshift
 from utils.redshift_data import RedshiftData
 from utils.check_item import check_keys_in_dictionary
+from utils.get_last_sunday import get_last_sunday
 
 class SalesTrendView(View):
     @connect_redshift
@@ -19,20 +20,22 @@ class SalesTrendView(View):
 
             brand = request.GET["brand"]
             product_cd = request.GET["product-cd"]
-            end_date = request.GET["end-date"]
+            end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
+            end_date_this_week = get_last_sunday(end_date_this_week)
+
             if type in ['korea', 'global'] :
-                result = self.get_sales_trend_data(brand,product_cd,end_date,type,connect)
+                result = self.get_sales_trend_data(brand,product_cd,end_date_this_week,type,connect)
             elif type == 'ratio':
-                result = self.get_sales_trend_ratio_data(brand,product_cd,end_date,connect)
+                result = self.get_sales_trend_ratio_data(brand,product_cd,end_date_this_week,connect)
 
             return JsonResponse({"message":"success", "data":result}, status=200)
         
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
-    def get_sales_trend_data(self, brand, product_cd, end_date, type, connect):
+    def get_sales_trend_data(self, brand, product_cd, end_date_this_week, type, connect):
         sales_trend_data_query = """
 
 select to_char(end_dt,'yy.mm.dd') as end_dt,
@@ -69,7 +72,7 @@ from (
            and a.prdt_cd = b.prdt_cd
            and a.brd_cd = '{brand}'
            and style_cd = '{product_cd}'
-           and end_dt between '{end_date}' - 7 * 11 and '{end_date}'
+           and end_dt between '{end_date_this_week}' - 7 * 11 and '{end_date_this_week}'
      ) a
 group by end_dt
 order by end_dt asc
@@ -79,7 +82,7 @@ order by end_dt asc
             query = sales_trend_data_query,
             brand = brand,
             product_cd = product_cd,
-            end_date = end_date,
+            end_date_this_week = end_date_this_week,
         )
 
         redshift_data = RedshiftData(connect, query)
@@ -97,7 +100,7 @@ order by end_dt asc
 
         return result
 
-    def get_sales_trend_ratio_data(self, brand, product_cd, end_date, connect):
+    def get_sales_trend_ratio_data(self, brand, product_cd, end_date_this_week, connect):
         sales_trend_ratio_data_query = """
 
 select sum(sales_retail_cy)/1000000      as sales_retail_cy,
@@ -115,7 +118,7 @@ from (
            and a.prdt_cd = b.prdt_cd
            and a.brd_cd = '{brand}'
            and style_cd = '{product_cd}'
-           and end_dt = '{end_date}'
+           and end_dt = '{end_date_this_week}'
      ) a
 
         """
@@ -123,7 +126,7 @@ from (
             query = sales_trend_ratio_data_query,
             brand = brand,
             product_cd = product_cd,
-            end_date = end_date,
+            end_date_this_week = end_date_this_week,
         )
 
         redshift_data = RedshiftData(connect, query)
@@ -149,17 +152,19 @@ class WeeklyView(View):
 
             brand = request.GET["brand"]
             product_cd = request.GET["product-cd"]
-            end_date = request.GET["end-date"]
+            end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
-            result = self.get_weekly_data(brand,product_cd,end_date,connect)
+            end_date_this_week = get_last_sunday(end_date_this_week)
+
+            result = self.get_weekly_data(brand,product_cd,end_date_this_week,connect)
 
             return JsonResponse({"message":"success", "data":result}, status=200)
         
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
-    def get_weekly_data(self, brand, product_cd, end_date, connect):
+    def get_weekly_data(self, brand, product_cd, end_date_this_week, connect):
         weekly_data_query = """
         
 select to_char(end_dt,'yyyymmdd') as end_dt
@@ -195,7 +200,7 @@ from prcs.db_scs_w a, prcs.dw_prdt b
 where a.prdt_cd = b.prdt_cd
 and b.style_cd = '{product_cd}'
 and b.brd_cd = '{brand}'
-and a.end_dt between '{end_date}'-7*12 and '{end_date}'
+and a.end_dt between '{end_date_this_week}'-7*12 and '{end_date_this_week}'
 group by a.end_dt
 order by a.end_dt desc
         
@@ -204,7 +209,7 @@ order by a.end_dt desc
             query = weekly_data_query,
             brand = brand,
             product_cd = product_cd,
-            end_date = end_date,
+            end_date_this_week = end_date_this_week,
         )
 
         redshift_data = RedshiftData(connect, query)
@@ -226,20 +231,22 @@ class ChannelView(View):
 
             brand = request.GET["brand"]
             product_cd = request.GET["product-cd"]
-            end_date = request.GET["end-date"]
+            end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
+            end_date_this_week = get_last_sunday(end_date_this_week)
+
             if type == 'overall':
-                result = self.get_overall_data(brand,product_cd,end_date,connect)
+                result = self.get_overall_data(brand,product_cd,end_date_this_week,connect)
             elif type == 'shops':
-                result = self.get_shops_data(brand,product_cd,end_date,connect)
+                result = self.get_shops_data(brand,product_cd,end_date_this_week,connect)
             
             return JsonResponse({"message":"success", "data":result}, status=200)
         
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
     
-    def get_overall_data(self, brand, product_cd, end_date, connect):
+    def get_overall_data(self, brand, product_cd, end_date_this_week, connect):
         overall_query = """
         
 select anal_dist_type_nm                                                                                          as type_zone_nm
@@ -275,7 +282,7 @@ from (
                     and c.mng_type = 'A'
                     and c.anal_cntry = 'KO'
                     and c.shop_type = 'A'
-                    and a.end_dt = '{end_date}'
+                    and a.end_dt = '{end_date_this_week}'
                     and a.brd_cd = '{brand}'
                     and b.style_cd = '{product_cd}'
                   group by a.shop_id
@@ -290,7 +297,7 @@ order by sale_amt desc
             query = overall_query,
             brand = brand,
             product_cd = product_cd,
-            end_date = end_date,
+            end_date_this_week = end_date_this_week,
         )
 
         redshift_data = RedshiftData(connect, query)
@@ -303,7 +310,7 @@ order by sale_amt desc
 
         return result
     
-    def get_shops_data(self, brand, product_cd, end_date, connect):
+    def get_shops_data(self, brand, product_cd, end_date_this_week, connect):
         shops_query = """
         
 select shop_id as                                                                          shopcode
@@ -328,7 +335,7 @@ from (
     and a.shop_id = c.shop_id
     and b.brd_cd = '{brand}'
     and b.style_cd = '{product_cd}'
-    and a.end_dt = '{end_date}'
+    and a.end_dt = '{end_date_this_week}'
     and c.mng_type = 'A'
     and c.anal_cntry  = 'KO'
     and c.shop_type = 'A'
@@ -344,7 +351,7 @@ order by sale_amt desc
             query = shops_query,
             brand = brand,
             product_cd = product_cd,
-            end_date = end_date,
+            end_date_this_week = end_date_this_week,
         )
 
         redshift_data = RedshiftData(connect, query)
@@ -361,6 +368,6 @@ def get_query(query, *args, **kwargs):
     query = query.format(
         brand=kwargs["brand"],
         product_cd=kwargs["product_cd"],
-        end_date=kwargs["end_date"],
+        end_date_this_week=kwargs["end_date_this_week"],
     )
     return query
