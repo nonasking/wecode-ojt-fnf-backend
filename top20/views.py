@@ -8,6 +8,7 @@ from utils.redshift_data import RedshiftData
 
 
 class Top20SummaryView(View):
+
     def __init__(self):
         self.column_descriptions = [
             ["cls", "구분", False], 
@@ -18,6 +19,7 @@ class Top20SummaryView(View):
             ["stock_qty_kor", "재고수량", "money"], 
             ["woi", "재고주수", False],
         ]
+
     def get_query(self, *args, **kwargs):
         query = """
 WITH main AS (
@@ -156,15 +158,12 @@ order by rk
 
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
-
-            columns = [
-                {"title":item[1], 
-                 "field":item[0],
-                 "formatter":item[2],
-                 "formatterParams":{"precision":False}} 
-                for item in self.column_descriptions
-            ]
-
+            
+            data.columns = [item[1] for item in self.column_descriptions]
+            data.index = data.index+1
+            data['id'] = data.index
+            
+            columns = [{"field":item[1]} for item in self.column_descriptions]
             contents = data.to_dict("records")
 
             return JsonResponse({"message":"SUCCESS", "columns":columns, "data":contents},status=200)
@@ -374,16 +373,17 @@ limit {para_rank_limit}
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
-            columns = [
-                {"title":item[1],
-                 "field":item[0],
-                 "formatter":item[2],
-                 "formatterParams":{"precision":False}}
-                for item in self.column_descriptions
-            ]
-
             column_list = [item[0] for item in self.column_descriptions]
-            contents = data[column_list].to_dict("records")
+            contents_data = data[column_list]
+
+            columns = [item[1] for item in self.column_descriptions]
+            contents_data.columns = columns
+
+            contents_data.index = contents_data.index+1
+            contents_data['id'] = contents_data.index
+            contents = contents_data.to_dict("records")
+
+            columns = [{"field":column_name} for column_name in columns]
 
             return JsonResponse({"message":"SUCCESS", "columns":columns, "data":contents}, status=200)
 
@@ -497,16 +497,20 @@ from (
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
-            columns = [
-                {"title":item[1],
-                 "field":item[0],
-                 "formatter":item[2],
-                 "formatterParams":{"precision":False}}
-                for item in self.column_descriptions
-            ]
+            columns = [{"field":item[1]} for item in self.column_descriptions]
 
             column_list = [item[0] for item in self.column_descriptions]
-            contents = data[column_list].to_dict("records")
+            contents_data = data[column_list]
+
+            columns = [item[1] for item in self.column_descriptions]
+            contents_data.columns = columns
+
+            contents_data.index = contents_data.index+1
+            contents_data['id'] = contents_data.index
+            contents = contents_data.to_dict("records")
+
+            columns = [{"field":column_name} for column_name in columns]
+            contents = contents_data.to_dict("records")
 
             return JsonResponse({"message":"SUCCESS", "columns":columns, "data":contents}, status=200)
 
