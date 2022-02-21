@@ -158,8 +158,8 @@ order by rk
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
             columns = [
-                {"title":item[0], 
-                 "field":item[1],
+                {"title":item[1], 
+                 "field":item[0],
                  "formatter":item[2],
                  "formatterParams":{"precision":False}} 
                 for item in self.column_descriptions
@@ -375,8 +375,8 @@ limit {para_rank_limit}
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
             columns = [
-                {"title":item[0],
-                 "field":item[1],
+                {"title":item[1],
+                 "field":item[0],
                  "formatter":item[2],
                  "formatterParams":{"precision":False}}
                 for item in self.column_descriptions
@@ -498,8 +498,8 @@ from (
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
             columns = [
-                {"title":item[0],
-                 "field":item[1],
+                {"title":item[1],
+                 "field":item[0],
                  "formatter":item[2],
                  "formatterParams":{"precision":False}}
                 for item in self.column_descriptions

@@ -23,7 +23,8 @@ class SalesTrendView(View):
             end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
-            end_date_this_week = get_last_sunday(end_date_this_week)
+            #end_date_this_week = get_last_sunday(end_date_this_week)
+            end_date_this_week = '2022-02-20'
 
             if type in ['korea', 'global'] :
                 result = self.get_sales_trend_data(brand,product_cd,end_date_this_week,type,connect)
@@ -134,12 +135,14 @@ from (
 
         if data is None:
             return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
-
-        data['sales_retail_cy_ratio'] = round((data['sales_retail_cy']/(data['sales_retail_cy']+data['sales_dutyrfwhole_cy']))*100,1)
-        data['sales_dutyrfwhole_cy_ratio'] = round((data['sales_dutyrfwhole_cy']/(data['sales_dutyrfwhole_cy']+data['sales_retail_cy']))*100,1)
+                
         data.fillna(0, inplace=True)
 
-        result = data.to_dict('records')
+        data = data.transpose()
+        data.columns = ['value']
+        data['name'] = ['국내', '면세/RF/도매']
+
+        result = data.to_dict('record')
 
         return result
 
@@ -155,7 +158,8 @@ class WeeklyView(View):
             end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
-            end_date_this_week = get_last_sunday(end_date_this_week)
+            #end_date_this_week = get_last_sunday(end_date_this_week)
+            end_date_this_week = '2022-02-20'
 
             result = self.get_weekly_data(brand,product_cd,end_date_this_week,connect)
 
@@ -234,7 +238,8 @@ class ChannelView(View):
             end_date_this_week = request.GET["end-date"]
             connect =request.connect
 
-            end_date_this_week = get_last_sunday(end_date_this_week)
+            #end_date_this_week = get_last_sunday(end_date_this_week)
+            end_date_this_week = '2022-02-20'
 
             if type == 'overall':
                 result = self.get_overall_data(brand,product_cd,end_date_this_week,connect)
