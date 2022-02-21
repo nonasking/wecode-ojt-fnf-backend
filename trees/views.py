@@ -194,6 +194,10 @@ order by 1,2
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
         data = data.groupby('category').agg({'sub_category':lambda x: list(x)})
         data = data.to_dict()
         
@@ -226,6 +230,9 @@ order by 1
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
 
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
+
         data['value'] = data['domain']
         data.columns = ['value', 'label']        
         
@@ -251,6 +258,9 @@ order by 1 desc, 2 desc, 3
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
         
         seasons_dict = {}
         for item in data.itertuples():
@@ -292,6 +302,9 @@ where brd_cd = '{brand}'
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
         
         items_dict = {}
         for item in data.itertuples():
@@ -334,6 +347,9 @@ order by 1
 
         redshift_data = RedshiftData(connect, query)
         data = redshift_data.get_data()
+
+        if data is None:
+            return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
 
         data['value'] = data['adult_kids_nm']
         data.columns = ['value', 'label'] 
