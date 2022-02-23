@@ -23,11 +23,173 @@ class SalesTrendView(View):
             connect =request.connect
 
             end_date_current_year = get_end_date_current_year()
-
+            '''
             if type in ['korea', 'global'] :
                 result = self.get_sales_trend_data(brand,product_cd,end_date_current_year,type,connect)
             elif type == 'ratio':
                 result = self.get_sales_trend_ratio_data(brand,product_cd,end_date_current_year,connect)
+            '''
+
+            if type == 'korea' :
+                return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "end_dt": "21.12.05",
+                            "qty_retail_cy": 1000,
+                            "qty_dutyrfwhole_cy": 5000
+                        },
+                        {
+                            "end_dt": "21.12.12",
+                            "qty_retail_cy": 2000,
+                            "qty_dutyrfwhole_cy": 10000
+                        },
+                        {
+                            "end_dt": "21.12.19",
+                            "qty_retail_cy": 3000,
+                            "qty_dutyrfwhole_cy": 17000
+                        },
+                        {
+                            "end_dt": "21.12.26",
+                            "qty_retail_cy": 4000,
+                            "qty_dutyrfwhole_cy": 18000
+                        },
+                        {
+                            "end_dt": "22.01.02",
+                            "qty_retail_cy": 5000,
+                            "qty_dutyrfwhole_cy": 19000
+                        },
+                        {
+                            "end_dt": "22.01.09",
+                            "qty_retail_cy": 6000,
+                            "qty_dutyrfwhole_cy": 25000
+                        },
+                        {
+                            "end_dt": "22.01.16",
+                            "qty_retail_cy": 7000,
+                            "qty_dutyrfwhole_cy": 27000
+                        },
+                        {
+                            "end_dt": "22.01.23",
+                            "qty_retail_cy": 8000,
+                            "qty_dutyrfwhole_cy": 30000
+                        },
+                        {
+                            "end_dt": "22.01.30",
+                            "qty_retail_cy": 9000,
+                            "qty_dutyrfwhole_cy": 32000
+                        },
+                        {
+                            "end_dt": "22.02.06",
+                            "qty_retail_cy": 10000,
+                            "qty_dutyrfwhole_cy": 33000
+                        },
+                        {
+                            "end_dt": "22.02.13",
+                            "qty_retail_cy": 11000,
+                            "qty_dutyrfwhole_cy": 35000
+                        },
+                        {
+                            "end_dt": "22.02.20",
+                            "qty_retail_cy": 12000,
+                            "qty_dutyrfwhole_cy": 40000
+                        }
+                    ]
+                })
+            
+            elif type == 'global':
+                return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "end_dt": "21.12.05",
+                            "qty_kor_cy": 10000,
+                            "qty_chn_cy": 1000,
+                            "qty_gvl_cy": 2000
+                        },
+                        {
+                            "end_dt": "21.12.12",
+                            "qty_kor_cy": 20000,
+                            "qty_chn_cy": 2000,
+                            "qty_gvl_cy": 3000
+                        },
+                        {
+                            "end_dt": "21.12.19",
+                            "qty_kor_cy": 30000,
+                            "qty_chn_cy": 3000,
+                            "qty_gvl_cy": 4500
+                        },
+                        {
+                            "end_dt": "21.12.26",
+                            "qty_kor_cy": 35000,
+                            "qty_chn_cy": 4000,
+                            "qty_gvl_cy": 2000
+                        },
+                        {
+                            "end_dt": "22.01.02",
+                            "qty_kor_cy": 40000,
+                            "qty_chn_cy": 5000,
+                            "qty_gvl_cy": 7000
+                        },
+                        {
+                            "end_dt": "22.01.09",
+                            "qty_kor_cy": 50000,
+                            "qty_chn_cy": 6000,
+                            "qty_gvl_cy": 9000
+                        },
+                        {
+                            "end_dt": "22.01.16",
+                            "qty_kor_cy": 60000,
+                            "qty_chn_cy": 7000,
+                            "qty_gvl_cy": 1000
+                        },
+                        {
+                            "end_dt": "22.01.23",
+                            "qty_kor_cy": 70000,
+                            "qty_chn_cy": 7500,
+                            "qty_gvl_cy": 9500
+                        },
+                        {
+                            "end_dt": "22.01.30",
+                            "qty_kor_cy": 80000,
+                            "qty_chn_cy": 8000,
+                            "qty_gvl_cy": 10000
+                        },
+                        {
+                            "end_dt": "22.02.06",
+                            "qty_kor_cy": 85000,
+                            "qty_chn_cy": 10000,
+                            "qty_gvl_cy": 11000
+                        },
+                        {
+                            "end_dt": "22.02.13",
+                            "qty_kor_cy": 90000,
+                            "qty_chn_cy": 15000,
+                            "qty_gvl_cy": 12000
+                        },
+                        {
+                            "end_dt": "22.02.20",
+                            "qty_kor_cy": 100000,
+                            "qty_chn_cy": 12222,
+                            "qty_gvl_cy": 13000
+                        }
+                    ]
+                })     
+            
+            elif type == 'ratio':
+                return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "value": 223,
+                            "name": "국내"
+                        },
+                        {
+                            "value": 523,
+                            "name": "면세/RF/도매"
+                        }
+                    ]
+                })
 
             return JsonResponse({"message":"success", "data":result}, status=200)
         
@@ -159,7 +321,68 @@ class WeeklyView(View):
 
             result = self.get_weekly_data(brand,product_cd,end_date_current_year,connect)
 
-            return JsonResponse({"message":"success", "data":result}, status=200)
+            return JsonResponse({
+                "message": "test success",
+                "data": [
+                    {
+                        "end_dt": "20220220",
+                        "stor_qty_kor": 10000,
+                        "delv_qty_exp": 1000,
+                        "delv_qty_outlet": 1020,
+                        "sale_qty_kor_ttl": 10372,
+                        "sale_qty_kor_retail": 1,
+                        "sale_qty_kor_duty": 101010,
+                        "sale_qty_kor_rfwholesale": 28583,
+                        "stock_qty_kor": 319482
+                    },
+                    {
+                        "end_dt": "20220213",
+                        "stor_qty_kor": 150,
+                        "delv_qty_exp": 1500,
+                        "delv_qty_outlet": 19,
+                        "sale_qty_kor_ttl": 122,
+                        "sale_qty_kor_retail": 2,
+                        "sale_qty_kor_duty": 30201,
+                        "sale_qty_kor_rfwholesale": 2444,
+                        "stock_qty_kor": 19372
+                    },
+                    {
+                        "end_dt": "20220206",
+                        "stor_qty_kor": 2099,
+                        "delv_qty_exp": 9000,
+                        "delv_qty_outlet": 100,
+                        "sale_qty_kor_ttl": 10101,
+                        "sale_qty_kor_retail": 3,
+                        "sale_qty_kor_duty": 24222,
+                        "sale_qty_kor_rfwholesale": 193,
+                        "stock_qty_kor": 13934
+                    },
+                    {
+                        "end_dt": "20220130",
+                        "stor_qty_kor": 1372,
+                        "delv_qty_exp": 200,
+                        "delv_qty_outlet": 34,
+                        "sale_qty_kor_ttl": 20202,
+                        "sale_qty_kor_retail": 40,
+                        "sale_qty_kor_duty": 3989,
+                        "sale_qty_kor_rfwholesale": 381,
+                        "stock_qty_kor": 39828
+                    },
+                    {
+                        "end_dt": "20220123",
+                        "stor_qty_kor": 50000,
+                        "delv_qty_exp": 501,
+                        "delv_qty_outlet": 99,
+                        "sale_qty_kor_ttl": 30303,
+                        "sale_qty_kor_retail": 120,
+                        "sale_qty_kor_duty": 3298,
+                        "sale_qty_kor_rfwholesale": 1038,
+                        "stock_qty_kor": 12894
+                    }
+                ]
+            })
+
+            #return JsonResponse({"message":"success", "data":result}, status=200)
         
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
@@ -237,8 +460,124 @@ class ChannelView(View):
 
             if type == 'overall':
                 result = self.get_overall_data(brand,product_cd,end_date_current_year,connect)
+                return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "type_zone_nm": "채널1",
+                            "shop_cnt": 1000,
+                            "asp": 100.0,
+                            "sale_qty": 10000,
+                            "shop_stock_qty": 15000,
+                            "woi": 0.0,
+                            "sale_amt": 111,
+                            "ratio": 20.0,
+                            "ac_sale_qty": 11111
+                        },
+                        {
+                            "type_zone_nm": "채널2",
+                            "shop_cnt": 2000,
+                            "asp": 200.0,
+                            "sale_qty": 20000,
+                            "shop_stock_qty": 25000,
+                            "woi": 3.0,
+                            "sale_amt": 222,
+                            "ratio": 20.0,
+                            "ac_sale_qty": 22222
+                        },
+                        {
+                            "type_zone_nm": "채널3",
+                            "shop_cnt": 3000,
+                            "asp": 300.0,
+                            "sale_qty": 30000,
+                            "shop_stock_qty": 35000,
+                            "woi": 2.0,
+                            "sale_amt": 333,
+                            "ratio": 30.0,
+                            "ac_sale_qty": 33333
+                        },
+                        {
+                            "type_zone_nm": "채널4",
+                            "shop_cnt": 4000,
+                            "asp": 400.0,
+                            "sale_qty": 40000,
+                            "shop_stock_qty": 45000,
+                            "woi": 9.0,
+                            "sale_amt": 444,
+                            "ratio": 10.0,
+                            "ac_sale_qty": 44444
+                        },
+                        {
+                            "type_zone_nm": "채널5",
+                            "shop_cnt": 5000,
+                            "asp": 500.0,
+                            "sale_qty": 50000,
+                            "shop_stock_qty": 55000,
+                            "woi": 6.0,
+                            "sale_amt": 555,
+                            "ratio": 20.0,
+                            "ac_sale_qty": 55555
+                        }
+                    ]
+                })
+            
             elif type == 'shops':
                 result = self.get_shops_data(brand,product_cd,end_date_current_year,connect)
+                return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "shopcode": "100",
+                            "shop_nm": "매장1",
+                            "anal_dist_type_nm": "채널1",
+                            "asp": 1000.0,
+                            "sale_qty": 10101,
+                            "stock_qty": 11111,
+                            "woi": 7.0,
+                            "ac_sale_qty": 111111
+                        },
+                        {
+                            "shopcode": "200",
+                            "shop_nm": "매장2",
+                            "anal_dist_type_nm": "채널2",
+                            "asp": 2000.0,
+                            "sale_qty": 20202,
+                            "stock_qty": 22222,
+                            "woi": 6.0,
+                            "ac_sale_qty": 222222
+                        },
+                        {
+                            "shopcode": "4",
+                            "shop_nm": "매장3",
+                            "anal_dist_type_nm": "채널3",
+                            "asp": 3000.0,
+                            "sale_qty": 30303,
+                            "stock_qty": 33333,
+                            "woi": 3.0,
+                            "ac_sale_qty": 333333
+                        },
+                        {
+                            "shopcode": "2",
+                            "shop_nm": "매장4",
+                            "anal_dist_type_nm": "채널4",
+                            "asp": 4000.0,
+                            "sale_qty": 40404,
+                            "stock_qty": 44444,
+                            "woi": 2.0,
+                            "ac_sale_qty": 444444
+                        },
+                        {
+                            "shopcode": "12",
+                            "shop_nm": "매장5",
+                            "anal_dist_type_nm": "채널5",
+                            "asp": 5000.0,
+                            "sale_qty": 50505,
+                            "stock_qty": 55555,
+                            "woi": 9.0,
+                            "ac_sale_qty": 555555
+                        }
+                    ]
+                })
             
             return JsonResponse({"message":"success", "data":result}, status=200)
         

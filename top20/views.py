@@ -118,8 +118,88 @@ order by rk
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
+        return JsonResponse({
+                "message": "TEST SUCCESS",
+                "columns": [
+                    {
+                        "field": "구분"
+                    },
+                    {
+                        "field": "판매액"
+                    },
+                    {
+                        "field": "매출비중"
+                    },
+                    {
+                        "field": "평균판매가"
+                    },
+                    {
+                        "field": "한국판매수"
+                    },
+                    {
+                        "field": "재고수량"
+                    },
+                    {
+                        "field": "재고주수"
+                    }
+                ],
+                "data": [
+                    {
+                        "구분": "Top5",
+                        "판매액": 100,
+                        "매출비중": 19.0,
+                        "평균판매가": 100000,
+                        "한국판매수": 1637,
+                        "재고수량": 111,
+                        "재고주수": 13.0,
+                        "id": 1
+                    },
+                    {
+                        "구분": "Top20",
+                        "판매액": 200,
+                        "매출비중": 91.0,
+                        "평균판매가": 10000,
+                        "한국판매수": 1829,
+                        "재고수량": 222,
+                        "재고주수": 13.0,
+                        "id": 2
+                    },
+                    {
+                        "구분": "Top50",
+                        "판매액": 300,
+                        "매출비중": 33.0,
+                        "평균판매가": 20000,
+                        "한국판매수": 1829,
+                        "재고수량": 333,
+                        "재고주수": 13.0,
+                        "id": 3
+                    },
+                    {
+                        "구분": "Top100",
+                        "판매액": 400,
+                        "매출비중": 66.0,
+                        "평균판매가": 50000,
+                        "한국판매수": 1829,
+                        "재고수량": 444,
+                        "재고주수": 13.0,
+                        "id": 4
+                    },
+                    {
+                        "구분": "Total",
+                        "판매액": 500,
+                        "매출비중": 99.0,
+                        "평균판매가": 20000,
+                        "한국판매수": 1829,
+                        "재고수량": 555,
+                        "재고주수": 13.0,
+                        "id": 5
+                    }
+                ]
+            })
+
+        '''
         try:
             brand = request.GET["brand"]
             end_date_this_week = request.GET["end-date"]
@@ -170,7 +250,7 @@ order by rk
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
-
+        '''
 
 class Top20ListView(View):
 
@@ -330,8 +410,192 @@ limit {para_rank_limit}
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
+        return JsonResponse({
+                "message": "TEST SUCCESS",
+                "columns": [
+                    {
+                        "field": "랭킹"
+                    },
+                    {
+                        "field": "상승"
+                    },
+                    {
+                        "field": "대표품번"
+                    },
+                    {
+                        "field": "이미지"
+                    },
+                    {
+                        "field": "택가"
+                    },
+                    {
+                        "field": "할인율"
+                    },
+                    {
+                        "field": "제품명"
+                    },
+                    {
+                        "field": "추이"
+                    },
+                    {
+                        "field": "수량"
+                    },
+                    {
+                        "field": "국내"
+                    },
+                    {
+                        "field": "면세"
+                    },
+                    {
+                        "field": "RF도매"
+                    },
+                    {
+                        "field": "실판"
+                    },
+                    {
+                        "field": "판매액"
+                    },
+                    {
+                        "field": "누적판매량"
+                    },
+                    {
+                        "field": "누적입고량"
+                    },
+                    {
+                        "field": "물류재고"
+                    },
+                    {
+                        "field": "총재고"
+                    },
+                    {
+                        "field": "재고주수"
+                    },
+                    {
+                        "field": "판매율"
+                    }
+                ],
+                "data": [
+                    {
+                        "랭킹": 1,
+                        "상승": "↑100",
+                        "대표품번": "A1AA1",
+                        "이미지": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+                        "택가": "50000",
+                        "할인율": 5.0,
+                        "제품명": "제품1",
+                        "추이": "0,10,20,0,13,2,17,22,200,3",
+                        "수량": 100,
+                        "국내": 110,
+                        "면세": 0,
+                        "RF도매": 1000,
+                        "실판": 10000.0,
+                        "판매액": 111,
+                        "누적판매량": 1111,
+                        "누적입고량": 1010,
+                        "물류재고": 1110,
+                        "총재고": 1111,
+                        "재고주수": 1.0,
+                        "판매율": 11.0,
+                        "id": 1
+                    },
+                    {
+                        "랭킹": 2,
+                        "상승": "↓2",
+                        "대표품번": "B2BB2",
+                        "이미지": "https://images.unsplash.com/photo-1605034313761-73ea4a0cfbf3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+                        "택가": "20000",
+                        "할인율": 2.0,
+                        "제품명": "제품2",
+                        "추이": "0,0,2,20,0,122,0,400,500,700,10",
+                        "수량": 2222,
+                        "국내": 20,
+                        "면세": 2222,
+                        "RF도매": 220,
+                        "실판": 20202.0,
+                        "판매액": 22,
+                        "누적판매량": 2000,
+                        "누적입고량": 2222,
+                        "물류재고": 2222,
+                        "총재고": 2000,
+                        "재고주수": 2.0,
+                        "판매율": 22.0,
+                        "id": 2
+                    },
+                    {
+                        "랭킹": 3,
+                        "상승": "↓45",
+                        "대표품번": "C3C33",
+                        "이미지": "https://images.unsplash.com/photo-1627913363993-95b23378265e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2980&q=80",
+                        "택가": "25000",
+                        "할인율": 7.0,
+                        "제품명": "제품3",
+                        "추이": "0,0,0,100,29,300,0,500",
+                        "수량": 3333,
+                        "국내": 333,
+                        "면세": 330,
+                        "RF도매": 30,
+                        "실판": 30303.0,
+                        "판매액": 33,
+                        "누적판매량": 3300,
+                        "누적입고량": 3000,
+                        "물류재고": 3203,
+                        "총재고": 143,
+                        "재고주수": 3.0,
+                        "판매율": 33.0,
+                        "id": 3
+                    },
+                    {
+                        "랭킹": 4,
+                        "상승": "↑200",
+                        "대표품번": "D4D44",
+                        "이미지": "https://images.unsplash.com/photo-1608667508764-33cf0726b13a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+                        "택가": "99000",
+                        "할인율": 5.0,
+                        "제품명": "제품4",
+                        "추이": "0,10,0,10,0,10,0,100,23,5,193,24",
+                        "수량": 4444,
+                        "국내": 404,
+                        "면세": 222,
+                        "RF도매": 124,
+                        "실판": 40404.0,
+                        "판매액": 44,
+                        "누적판매량": 2420,
+                        "누적입고량": 3254,
+                        "물류재고": 2354,
+                        "총재고": 62,
+                        "재고주수": 4.0,
+                        "판매율": 44.0,
+                        "id": 4
+                    },
+                    {
+                        "랭킹": 5,
+                        "상승": "↓10",
+                        "대표품번": "E5E55",
+                        "이미지": "https://images.unsplash.com/photo-1550998358-08b4f83dc345?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+                        "택가": "150000",
+                        "할인율": 2.0,
+                        "제품명": "제품5",
+                        "추이": "0,1,204,1,200,250,100",
+                        "수량": 555,
+                        "국내": 5555,
+                        "면세": 555,
+                        "RF도매": 5055,
+                        "실판": 50505.0,
+                        "판매액":55,
+                        "누적판매량": 5000,
+                        "누적입고량": 5500,
+                        "물류재고": 5050,
+                        "총재고": 5053,
+                        "재고주수": 5.0,
+                        "판매율": 55.0,
+                        "id": 5
+                    }
+                ]
+            })
+
+        '''
         try:
             brand = request.GET["brand"]
             end_date_this_week = request.GET["end-date"]
@@ -389,7 +653,7 @@ limit {para_rank_limit}
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
-
+        '''
 
 class Top20TotalSummaryView(View):
 
@@ -454,8 +718,60 @@ from (
         
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
+        return JsonResponse({
+                "message": "TEST SUCCESS",
+                "columns": [
+                    {
+                        "field": "총합계"
+                    },
+                    {
+                        "field": "판매액"
+                    },
+                    {
+                        "field": "판매량"
+                    },
+                    {
+                        "field": "실판가"
+                    },
+                    {
+                        "field": "국내"
+                    },
+                    {
+                        "field": "면세"
+                    },
+                    {
+                        "field": "RF도매"
+                    },
+                    {
+                        "field": "물류재고"
+                    },
+                    {
+                        "field": "총재고"
+                    },
+                    {
+                        "field": "재고주수"
+                    }
+                ],
+                "data": [
+                    {
+                        "총합계": "총합계",
+                        "판매액": 5252,
+                        "판매량": 2038,
+                        "실판가": 4000,
+                        "국내": 40,
+                        "면세": 2123,
+                        "RF도매": 1985,
+                        "물류재고": 2908,
+                        "총재고": 3490,
+                        "재고주수": 18,
+                        "id": 1
+                    }
+                ]
+            })
+
+        '''
         try:
             brand = request.GET["brand"]
             end_date_this_week = request.GET["end-date"]
@@ -516,3 +832,4 @@ from (
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
+        '''

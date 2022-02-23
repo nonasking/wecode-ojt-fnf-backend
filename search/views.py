@@ -15,8 +15,85 @@ from utils.check_item import check_keys_in_dictionary
 # 브랜드별 검색량 표(당해/전년/전년비) (주간/선택기간)
 class SearchCountTableView(View):
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, term, *args, **kwargs):
+        if term == 'weekly':
+                
+            return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "competitor": "일반",
+                            "growth": 66,
+                            "search_qty_cy": 555,
+                            "search_qty_py": 123
+                        },
+                        {
+                            "competitor": "자사",
+                            "growth": 22,
+                            "search_qty_cy": 22205,
+                            "search_qty_py": 4122
+                        },
+                        {
+                            "competitor": "브랜드1",
+                            "growth": 11,
+                            "search_qty_cy": 3256,
+                            "search_qty_py": 124
+                        },
+                        {
+                            "competitor": "브랜드2",
+                            "growth": 98,
+                            "search_qty_cy": 20443,
+                            "search_qty_py": 10395
+                        },
+                        {
+                            "competitor": "브랜드3",
+                            "growth": 133,
+                            "search_qty_cy": 10385,
+                            "search_qty_py": 10284
+                        }
+                    ]
+                })                
+            
+        elif term == 'selected-period':
+                
+            return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "competitor": "일반",
+                            "growth": 33,
+                            "search_qty_cy": 10233,
+                            "search_qty_py": 12049
+                        },
+                        {
+                            "competitor": "자사",
+                            "growth": 68,
+                            "search_qty_cy": 19047,
+                            "search_qty_py": 10385
+                        },
+                        {
+                            "competitor": "브랜드1",
+                            "growth": 63,
+                            "search_qty_cy": 104,
+                            "search_qty_py": 5120
+                        },
+                        {
+                            "competitor": "브랜드2",
+                            "growth": 10,
+                            "search_qty_cy": 12848,
+                            "search_qty_py": 2049
+                        },
+                        {
+                            "competitor": "브랜드3",
+                            "growth": 95,
+                            "search_qty_cy": 1938,
+                            "search_qty_py": 1222
+                        }
+                    ]
+                })
+
+        '''   
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date", "weekly-date", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -50,17 +127,19 @@ class SearchCountTableView(View):
 
             if term == 'weekly':
                 data = data[data['term_cls']=='주간']
-            
+                
             elif term == 'selected-period':
                 data = data[data['term_cls']=='선택기간']
-            
+                
             data = data[data.columns.difference(['term_cls'])]
             result = data.to_dict('records')
             
             return JsonResponse({"message":"success", "data":result}, status=200)
-    
+            
+
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
+        '''
     
     def get_query(self, *args, **kwargs):
         query = """
@@ -143,8 +222,85 @@ ORDER BY term_cls, search_qty_cy DESC
 # 일반 검색어/자사 검색어 추이 차트(당해/전년)
 class SearchCountTimeSeriesOverallView(View):
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, type, *args, **kwargs):
+        if type == 'brand':
+    
+            return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "end_dt": "22.01.02",
+                            "search_qty_cy": 100,
+                            "search_qty_py": 150
+                        },
+                        {
+                            "end_dt": "22.01.09",
+                            "search_qty_cy": 300,
+                            "search_qty_py": 350
+                        },
+                        {
+                            "end_dt": "22.01.16",
+                            "search_qty_cy": 500,
+                            "search_qty_py": 550
+                        },
+                        {
+                            "end_dt": "22.01.23",
+                            "search_qty_cy": 700,
+                            "search_qty_py": 800
+                        },
+                        {
+                            "end_dt": "22.01.30",
+                            "search_qty_cy": 900,
+                            "search_qty_py": 1099
+                        },
+                        {
+                            "end_dt": "22.02.06",
+                            "search_qty_cy": 1100,
+                            "search_qty_py": 1000
+                        }
+                    ]
+                })
+                
+        elif type == 'overall':
+
+            return JsonResponse({
+                    "message": "test success",
+                    "data": [
+                        {
+                            "end_dt": "22.01.02",
+                            "search_qty_cy": 10000,
+                            "search_qty_py": 11000
+                        },
+                        {
+                            "end_dt": "22.01.09",
+                            "search_qty_cy": 20000,
+                            "search_qty_py": 22000
+                        },
+                        {
+                            "end_dt": "22.01.16",
+                            "search_qty_cy": 30000,
+                            "search_qty_py": 33000
+                        },
+                        {
+                            "end_dt": "22.01.23",
+                            "search_qty_cy": 40000,
+                            "search_qty_py": 44000
+                        },
+                        {
+                            "end_dt": "22.01.30",
+                            "search_qty_cy": 50000,
+                            "search_qty_py": 55000
+                        },
+                        {
+                            "end_dt": "22.02.06",
+                            "search_qty_cy": 60000,
+                            "search_qty_py": 66000
+                        }
+                    ]
+                })
+
+        '''
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date", "end-date", "weekly-date", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -181,7 +337,7 @@ class SearchCountTimeSeriesOverallView(View):
             
             if type == 'brand':
                 result = self.filter_search_count(data,'자사')
-                
+
             elif type == 'overall':
                 result = self.filter_search_count(data,'일반')
 
@@ -189,7 +345,8 @@ class SearchCountTimeSeriesOverallView(View):
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400) 
-
+        '''
+    
     def get_query(self, *args, **kwargs):
         query = """
 
@@ -276,8 +433,45 @@ ORDER BY 1
 # 경쟁사 검색어 추이 차트
 class SearchCountCompetitorTimeSeriesView(View):
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
+        return JsonResponse({
+                "message": "test success",
+                "data": [
+                    {
+                        "end_dt": "22.01.02",
+                        "search_qty_cy": 70,
+                        "search_qty_py": 100
+                    },
+                    {
+                        "end_dt": "22.01.09",
+                        "search_qty_cy": 180,
+                        "search_qty_py": 190
+                    },
+                    {
+                        "end_dt": "22.01.16",
+                        "search_qty_cy": 230,
+                        "search_qty_py": 209
+                    },
+                    {
+                        "end_dt": "22.01.23",
+                        "search_qty_cy": 420,
+                        "search_qty_py": 294
+                    },
+                    {
+                        "end_dt": "22.01.30",
+                        "search_qty_cy": 609,
+                        "search_qty_py": 500
+                    },
+                    {
+                        "end_dt": "22.02.06",
+                        "search_qty_cy": 1000,
+                        "search_qty_py": 1200
+                    }
+                ]
+            }) 
+        
+        '''
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date", "end-date", "weekly-date", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -342,6 +536,7 @@ class SearchCountCompetitorTimeSeriesView(View):
 
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
+        '''
     
     def get_brand_name(self, brand):
         brands = {'M':'MLB', 'I':'MLB Kids'}
