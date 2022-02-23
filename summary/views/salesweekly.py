@@ -178,7 +178,6 @@ GROUP BY end_dt
 )
 GROUP BY end_dt
 ORDER BY end_dt
-
         """.format(
             para_brand=kwargs["brand"],
             para_season=kwargs["season"],
@@ -239,7 +238,7 @@ ORDER BY end_dt
             
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
-            
+            """
             result = [{
                 "end_dt"               : data["end_dt"],               #끝나는 시점
                 "sale_qty_kor_ttl"     : data["sale_qty_kor_ttl"],     #판매량 당해
@@ -253,6 +252,75 @@ ORDER BY end_dt
                 }for __, data in data.iterrows()
             ]            
             return JsonResponse({"message":"success", "data":result}, status=200)
+            """
+            
+            fake = [{
+                "end_dt": "22.01.02",
+                "sale_qty_kor_ttl": 0,
+                "sale_qty_kor_ttl_py": 0,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 0,
+                "stor_qty_kor": 4500,
+                "stock_qty_kor": 28453,
+                "search_qty_cy": 197.0,
+                "search_qty_py": 130.0
+                },
+                {
+                "end_dt": "22.01.09",
+                "sale_qty_kor_ttl": 150,
+                "sale_qty_kor_ttl_py": 0,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 0,
+                "stor_qty_kor": 0,
+                "stock_qty_kor": 28167,
+                "search_qty_cy": 291.0,
+                "search_qty_py": 140.0
+                },
+                {
+                "end_dt": "22.01.16",
+                "sale_qty_kor_ttl": 544,
+                "sale_qty_kor_ttl_py": 0,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 1000,
+                "stor_qty_kor": 1824,
+                "stock_qty_kor": 27869,
+                "search_qty_cy": 426.0,
+                "search_qty_py": 174.0
+                },
+                {
+                "end_dt": "22.01.23",
+                "sale_qty_kor_ttl": 437,
+                "sale_qty_kor_ttl_py": 38,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 0,
+                "stor_qty_kor": 18,
+                "stock_qty_kor": 23353,
+                "search_qty_cy": 462.0,
+                "search_qty_py": 321.0
+                },
+                {
+                "end_dt": "22.01.30",
+                "sale_qty_kor_ttl": 385,
+                "sale_qty_kor_ttl_py": 247,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 1900,
+                "stor_qty_kor": 2153,
+                "stock_qty_kor": 28618,
+                "search_qty_cy": 706.0,
+                "search_qty_py": 645.0
+                },
+                {
+                "end_dt": "22.02.06",
+                "sale_qty_kor_ttl": 475,
+                "sale_qty_kor_ttl_py": 567,
+                "sale_qty_kor_ttl_py2": 0,
+                "os": 0,
+                "stor_qty_kor": 0,
+                "stock_qty_kor": 28000,
+                "search_qty_cy": 1029.0,
+                "search_qty_py": 778.0
+                }]
+            return JsonResponse({"message":"success", "data":fake}, status=200)
         
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)        
