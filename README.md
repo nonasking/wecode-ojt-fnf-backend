@@ -25,16 +25,18 @@
 <br>
 
 ## 협업 도구
-Slack, Github
+- Slack, Github
 
 ## 적용 기술
 
 ### 공통
-AWS, RESTful API
+- RESTful API
 
 ### 백엔드
-Python, Django, Pandas, Postgresql
-
+- Python/Django 
+- Pandas 
+- Postgresql
+- AWS Redshift
 
 ## 구현 기능
 
