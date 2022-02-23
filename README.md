@@ -10,8 +10,9 @@
 ### 개발 인원 및 기간
 
 - 개발기간 : 2020/1/24 ~ 2020/2/23
-- 개발 인원 : 백엔드 3명, 프론트엔드 4명
-- [프론트엔드 github 링크](https://github.com/KimJeongHyun/wecode-ojt-fnf-frontend)
+- 개발 인원 : 
+  - 백엔드 3명 : 김재엽, 강민성, 지원석
+  - 프론트엔드 4명([프론트엔드 github 링크](https://github.com/KimJeongHyun/wecode-ojt-fnf-frontend))
 
 ### 프로젝트 선정 배경
 
