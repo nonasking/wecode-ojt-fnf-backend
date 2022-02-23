@@ -46,6 +46,7 @@ ORDER BY end_date, sub_cat_nm
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -90,7 +91,45 @@ ORDER BY end_date, sub_cat_nm
             result = [{
                 column:item[column] for column in columns
             }for __, item in pivot_data.iterrows()]
-
+            '''
+            result = [
+                {
+                     "end_date": "22.01.02",
+                     "기타아우터": 0,
+                     "바람막이": 0,
+                     "베이스볼점퍼": 191
+                },
+                {
+                     "end_date": "22.01.09",
+                     "기타아우터": 0,
+                     "바람막이": 166,
+                     "베이스볼점퍼": 910
+                },
+                {
+                     "end_date": "22.01.16",
+                     "기타아우터": 0,
+                     "바람막이": 744,
+                     "베이스볼점퍼": 511
+                },
+                {
+                    "end_date": "22.01.23",
+                    "기타아우터": 513,
+                    "바람막이": 537,
+                    "베이스볼점퍼": 653
+                },
+                {
+                    "end_date": "22.01.30",
+                    "기타아우터": 1215,
+                    "바람막이": 485,
+                    "베이스볼점퍼": 558
+                },
+                {
+                    "end_date": "22.02.06",
+                    "기타아우터": 643,
+                    "바람막이": 575,
+                    "베이스볼점퍼": 812
+                }
+            ]
             return JsonResponse({"message":"success","data":result}, status=200)
 
         except KeyError as e:
@@ -228,6 +267,7 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -270,7 +310,45 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
             result = [{
                 column:item[column] for column in columns
                 }for __, item in data.iterrows()]
-                
+            '''
+            result = [
+               {
+                    "sub_cat_nm": "Total",
+                    "week_sale_qty_cy": 2030,
+                    "stock_qty": 45091,
+                    "woi": 22.0,
+                    "week_ratio": 100.0,
+                    "week_growth": 260.0,
+                    "sale_rate": 16.0
+                },
+                {
+                    "sub_cat_nm": "기타아우터",
+                    "week_sale_qty_cy": 643,
+                    "stock_qty": 1718,
+                    "woi": 3.0,
+                    "week_ratio": 42.0,
+                    "week_growth": 597.0,
+                    "sale_rate": 58.0
+                },
+                {
+                    "sub_cat_nm": "베이스볼점퍼",
+                    "week_sale_qty_cy": 812,
+                    "stock_qty": 11373,
+                    "woi": 14.0,
+                    "week_ratio": 37.0,
+                    "week_growth": 328.0,
+                    "sale_rate": 24.0
+                },
+                {
+                    "sub_cat_nm": "바람막이",
+                    "week_sale_qty_cy": 575,
+                    "stock_qty": 32000,
+                    "woi": 56.0,
+                    "week_ratio": 21.0,
+                    "week_growth": 104.0,
+                    "sale_rate": 7.0
+                }
+            ]
             return JsonResponse({"message":"success", "data":result}, status=200)
 
         except KeyError as e:

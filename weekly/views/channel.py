@@ -66,9 +66,10 @@ ORDER BY 1
         )
         return query
 
-    @connect_redshift
+#    @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -114,6 +115,57 @@ ORDER BY 1
                 "sales_chn_cy": item["sales_chn_cy"],
                 "sales_gvl_cy": item["sales_gvl_cy"],
                 }for __, item in data.iterrows()
+            ]
+            '''
+            result = [
+                {
+                    "end_date": "22.01.02",
+                    "sales_kor_cy": 191,
+                    "sales_kor_retail_cy": 35,
+                    "sales_dutyrfwhole_cy": 156,
+                    "sales_chn_cy": 913,
+                    "sales_gvl_cy": 0
+                },
+                {
+                    "end_date": "22.01.09",
+                    "sales_kor_cy": 1076,
+                    "sales_kor_retail_cy": 192,
+                    "sales_dutyrfwhole_cy": 884,
+                    "sales_chn_cy": 973,
+                    "sales_gvl_cy": 0
+                },
+                {
+                    "end_date": "22.01.16",
+                    "sales_kor_cy": 1255,
+                    "sales_kor_retail_cy": 344,
+                    "sales_dutyrfwhole_cy": 911,
+                    "sales_chn_cy": 1827,
+                    "sales_gvl_cy": 0
+                },
+                {
+                    "end_date": "22.01.23",
+                    "sales_kor_cy": 1703,
+                    "sales_kor_retail_cy": 513,
+                    "sales_dutyrfwhole_cy": 1190,
+                    "sales_chn_cy": 2965,
+                    "sales_gvl_cy": 0
+                },
+                {
+                    "end_date": "22.01.30",
+                    "sales_kor_cy": 2258,
+                    "sales_kor_retail_cy": 600,
+                    "sales_dutyrfwhole_cy": 1658,
+                    "sales_chn_cy": 4893,
+                    "sales_gvl_cy": 13
+                },
+                {
+                    "end_date": "22.02.06",
+                    "sales_kor_cy": 2030,
+                    "sales_kor_retail_cy": 829,
+                    "sales_dutyrfwhole_cy": 1201,
+                    "sales_chn_cy": 3331,
+                    "sales_gvl_cy": 15
+                }
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
 
@@ -280,6 +332,7 @@ ORDER BY sales_cy DESC , cls
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -319,6 +372,32 @@ ORDER BY sales_cy DESC , cls
 
             column = ["cls", "ratio", "qty_cy", "qty_py", "growth"]
             result = data[column].to_dict("records")
+            '''
+
+            result = [
+                {
+                    "cls": "Total",
+                    "ratio": 100.0,
+                    "qty_cy": 2030,
+                    "qty_py": 1097,
+                    "growth": 185.0
+                },
+                {
+                    "cls": "면세RF도매",
+                    "ratio": 65.0,
+                    "qty_cy": 1201,
+                    "qty_py": 337,
+                    "growth": 356.0
+                },
+                {
+                    "cls": "국내",
+                    "ratio": 35.0,
+                    "qty_cy": 829,
+                    "qty_py": 760,
+                    "growth": 109.0
+                }
+            ]
+
             return JsonResponse({"message":"success","data":result}, status=200)
 
         except KeyError as e:

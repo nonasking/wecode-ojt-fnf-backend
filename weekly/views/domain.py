@@ -46,6 +46,7 @@ ORDER BY end_date, domain1_nm
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -91,7 +92,65 @@ ORDER BY end_date, domain1_nm
             result = [{
                 column:item[column] for column in columns
             }for __, item in pivot_data.iterrows()]
-
+            '''
+            
+            result = [
+                {
+                    "end_date": "22.01.02",
+                    "ATHLEISURE": 0.0,
+                    "BASIC": 186.0,
+                    "HEART": 0.0,
+                    "LIKE": 5.0,
+                    "MONOGRAM": 0.0,
+                    "SEAMBALL": 0.0
+                },
+                {
+                    "end_date": "22.01.09",
+                    "ATHLEISURE": 0.0,
+                    "BASIC": 829.0,
+                    "HEART": 0.0,
+                    "LIKE": 6.0,
+                    "MONOGRAM": 211.0,
+                    "SEAMBALL": 30.0
+                },
+                {
+                    "end_date": "22.01.16",
+                    "ATHLEISURE": 0.0,
+                    "BASIC": 546.0,
+                    "HEART": 7.0,
+                    "LIKE": 3.0,
+                    "MONOGRAM": 532.0,
+                    "SEAMBALL": 167.0
+                },
+                {
+                    "end_date": "22.01.23",
+                    "ATHLEISURE": 0.0,
+                    "BASIC": 1228.0,
+                    "HEART": 21.0,
+                    "LIKE": 7.0,
+                    "MONOGRAM": 418.0,
+                    "SEAMBALL": 29.0
+                },
+                {
+                    "end_date": "22.01.30",
+                    "ATHLEISURE": 5.0,
+                    "BASIC": 1895.0,
+                    "HEART": 31.0,
+                    "LIKE": 15.0,
+                    "MONOGRAM": 260.0,
+                    "SEAMBALL": 52.0
+                },
+                {
+                    "end_date": "22.02.06",
+                    "ATHLEISURE": 8.0,
+                    "BASIC": 1666.0,
+                    "HEART": 40.0,
+                    "LIKE": 6.0,
+                    "MONOGRAM": 240.0,
+                    "SEAMBALL": 70.0
+                }
+           ]
+ 
             return JsonResponse({"message":"success","data":result}, status=200)
 
         except KeyError as e:
@@ -228,6 +287,7 @@ ORDER BY week_sale_amt_cy DESC, domain1_nm
     @connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -271,6 +331,100 @@ ORDER BY week_sale_amt_cy DESC, domain1_nm
             result = [{
                 column:item[column] for column in columns
                 }for __, item in data.iterrows()]
+            '''
+            
+            result = [
+                {
+                    "domain1_nm": "Total",
+                    "week_sale_qty_cy": 2030,
+                    "stock_qty": 45091,
+                    "woi": 22.0,
+                    "week_ratio": 100.0,
+                    "week_growth": 260.0,
+                    "sale_rate": 16.0
+                },
+                {
+                    "domain1_nm": "BASIC",
+                    "week_sale_qty_cy": 1666,
+                    "stock_qty": 20227,
+                    "woi": 12.0,
+                    "week_ratio": 85.0,
+                    "week_growth": 319.0,
+                    "sale_rate": 24.0
+                },
+                {
+                    "domain1_nm": "MONOGRAM",
+                    "week_sale_qty_cy": 240,
+                    "stock_qty": 15451,
+                    "woi": 64.0,
+                    "week_ratio": 11.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 10.0
+                },
+                {
+                    "domain1_nm": "SEAMBALL",
+                    "week_sale_qty_cy": 70,
+                    "stock_qty": 5109,
+                    "woi": 73.0,
+                    "week_ratio": 3.0,
+                    "week_growth": 21.0,
+                    "sale_rate": 6.0
+                },
+                {
+                    "domain1_nm": "HEART",
+                    "week_sale_qty_cy": 40,
+                    "stock_qty": 1292,
+                    "woi": 32.0,
+                    "week_ratio": 2.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 7.0
+                },
+                {
+                    "domain1_nm": "ATHLEISURE",
+                    "week_sale_qty_cy": 8,
+                    "stock_qty": 2018,
+                    "woi": 252.0,
+                    "week_ratio": 0.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 1.0
+                },
+                {
+                    "domain1_nm": "LIKE",
+                    "week_sale_qty_cy": 6,
+                    "stock_qty": 994,
+                    "woi": 166.0,
+                    "week_ratio": 0.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 5.0
+                },
+                {
+                    "domain1_nm": "COOLFIELD",
+                    "week_sale_qty_cy": 0,
+                    "stock_qty": 0,
+                    "woi": 0.0,
+                    "week_ratio": 0.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 0.0
+                },
+                {
+                    "domain1_nm": "GRAFFITI",
+                    "week_sale_qty_cy": 0,
+                    "stock_qty": 0,
+                    "woi": 0.0,
+                    "week_ratio": 0.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 0.0
+                },
+                {
+                    "domain1_nm": "PLAY",
+                    "week_sale_qty_cy": 0,
+                    "stock_qty": 0,
+                    "woi": 0.0,
+                    "week_ratio": 0.0,
+                    "week_growth": 0.0,
+                    "sale_rate": 0.0
+                }
+            ]
 
             return JsonResponse({"message":"success", "data":result}, status=200)
 
