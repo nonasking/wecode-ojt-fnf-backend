@@ -129,8 +129,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 3.0,
                     "sale_rate": 58.0,
                     "week_ratio": 42.0,
-                    "prdt_nm": "베이직 블레이저 울 자켓",
-                    "style_cd": "3AJKB0121"
+                    "prdt_nm": "베이직 자켓",
+                    "style_cd": "3AJ21"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20211230/3AJPB0321-50BKS-56872818707980652.png",
@@ -140,7 +140,7 @@ ORDER BY week_sale_qty_cy DESC
                     "sale_rate": 31.0,
                     "week_ratio": 27.0,
                     "prdt_nm": "뉴핏 MLB 점퍼",
-                    "style_cd": "3AJPB0321"
+                    "style_cd": "3A21"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220104/3AJPB0121-50GNS-57275690478386292.png",
@@ -150,7 +150,7 @@ ORDER BY week_sale_qty_cy DESC
                     "sale_rate": 59.0,
                     "week_ratio": 6.0,
                     "prdt_nm": "베이직 야구점퍼",
-                    "style_cd": "3AJPB0121"
+                    "style_cd": "3AJ"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220124/3AWJB0121-50BKS-59014582214539115.png",
@@ -159,8 +159,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 54.0,
                     "sale_rate": 3.0,
                     "week_ratio": 3.0,
-                    "prdt_nm": "베이직 로고 바람막이",
-                    "style_cd": "3AWJB0121"
+                    "prdt_nm": "베이직 바람막이",
+                    "style_cd": "3A121"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220110/3AWJB0221-50BKS-57812473495692451.png",
@@ -169,8 +169,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 27.0,
                     "sale_rate": 10.0,
                     "week_ratio": 3.0,
-                    "prdt_nm": "베이직 로고 아노락",
-                    "style_cd": "3AWJB0221"
+                    "prdt_nm": "베이직 아노락",
+                    "style_cd": "3AWJB"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220110/3AWJM0121-50CRS-57812478540233229.png",
@@ -179,8 +179,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 59.0,
                     "sale_rate": 8.0,
                     "week_ratio": 3.0,
-                    "prdt_nm": "모노그램 전판프린트 셋업 바람막이",
-                    "style_cd": "3AWJM0121"
+                    "prdt_nm": "모노그램 바람막이",
+                    "style_cd": "3AW"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220110/3FWJB0121-50BKS-57812543981169314.png",
@@ -189,8 +189,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 36.0,
                     "sale_rate": 7.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "여성 베이직 바람막이 셋업 셋업",
-                    "style_cd": "3FWJB0121"
+                    "prdt_nm": "여성 베이직 셋업",
+                    "style_cd": "B0121"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220105/3AWJM0221-50BGS-57365119517067882.png",
@@ -199,8 +199,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 27.0,
                     "sale_rate": 23.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "다이아 모노그램 절개 셋업 바람막이",
-                    "style_cd": "3AWJM0221"
+                    "prdt_nm": "모노그램 바람막이",
+                    "style_cd": "3A221"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220106/3AWJS0221-50BKS-57475639787988900.png",
@@ -209,8 +209,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 61.0,
                     "sale_rate": 3.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "씸볼 셋업 바람막이",
-                    "style_cd": "3AWJS0221"
+                    "prdt_nm": "씸볼 바람막이",
+                    "style_cd": "S0221"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220110/3AJPH0121-50BKS-57811937043241509.png",
@@ -219,8 +219,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 32.0,
                     "sale_rate": 7.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "하트 베이스볼 점퍼",
-                    "style_cd": "3AJPH0121"
+                    "prdt_nm": "베이스볼 점퍼",
+                    "style_cd": "H0121"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220105/3FWJM0221-50BGS-57365121086491935.png",
@@ -229,8 +229,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 40.0,
                     "sale_rate": 18.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "여성 크롭 다이아모노그램 자가드 바람막이",
-                    "style_cd": "3FWJM0221"
+                    "prdt_nm": "여성 바람막이",
+                    "style_cd": "3F0221"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220105/3LWJM0321-50BGS-57365126140435092.png",
@@ -239,8 +239,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 51.0,
                     "sale_rate": 12.0,
                     "week_ratio": 2.0,
-                    "prdt_nm": "남성 다이아모노그램 자가드 바람막이",
-                    "style_cd": "3LWJM0321"
+                    "prdt_nm": "남성 바람막이",
+                    "style_cd": "M0321"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220106/3AJPM0121-50BGS-57475635093751833.png",
@@ -249,8 +249,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 113.0,
                     "sale_rate": 5.0,
                     "week_ratio": 1.0,
-                    "prdt_nm": "다이아 모노그램 MLB 점퍼",
-                    "style_cd": "3AJPM0121"
+                    "prdt_nm": "MLB 점퍼",
+                    "style_cd": "321"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220110/3FWJB0221-50BKS-57812547062353124.png",
@@ -259,8 +259,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 72.0,
                     "sale_rate": 3.0,
                     "week_ratio": 1.0,
-                    "prdt_nm": "여성 베이직 아노락",
-                    "style_cd": "3FWJB0221"
+                    "prdt_nm": "여성아노락",
+                    "style_cd": "J221"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220105/3AWJS0321-50WHS-57378610559498840.png",
@@ -269,8 +269,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 103.0,
                     "sale_rate": 11.0,
                     "week_ratio": 1.0,
-                    "prdt_nm": "마카씸볼 아노락",
-                    "style_cd": "3AWJS0321"
+                    "prdt_nm": "아노락",
+                    "style_cd": "3AWJ"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220128/3AWJA0121-50BKS-59365290722411454.png",
@@ -280,7 +280,7 @@ ORDER BY week_sale_qty_cy DESC
                     "sale_rate": 1.0,
                     "week_ratio": 0.0,
                     "prdt_nm": "애슬레저 바람막이",
-                    "style_cd": "3AWJA0121"
+                    "style_cd": "3AWJA"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220106/3AJPL0121-50BLS-57451313758815087.png",
@@ -289,8 +289,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 166.0,
                     "sale_rate": 5.0,
                     "week_ratio": 0.0,
-                    "prdt_nm": "라이크 나일론 베이스볼 점퍼",
-                    "style_cd": "3AJPL0121"
+                    "prdt_nm": "베이스볼 점퍼",
+                    "style_cd": "L0121"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220208/3FWJB0421-50BKS-60328982620510166.png",
@@ -299,8 +299,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 0.0,
                     "sale_rate": 0.0,
                     "week_ratio": 0.0,
-                    "prdt_nm": "여성 크롭 컬러블럭 바람막이 (홑겹)",
-                    "style_cd": "3FWJB0421"
+                    "prdt_nm": "컬러블럭 바람막이 (홑겹)",
+                    "style_cd": "0421"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220207/3AWJB0621-50CRS-60223404411180775.png",
@@ -309,8 +309,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 0.0,
                     "sale_rate": 0.0,
                     "week_ratio": 0.0,
-                    "prdt_nm": "베이직 썸머 라글란 바람막이 (홑겹)",
-                    "style_cd": "3AWJB0621"
+                    "prdt_nm": "베이직 바람막이 (홑겹)",
+                    "style_cd": "0621"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220207/3AWJB0521-50CRS-60222135447027369.png",
@@ -319,8 +319,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 0.0,
                     "sale_rate": 0.0,
                     "week_ratio": 0.0,
-                    "prdt_nm": "베이직 썸머 파이핑 바람막이 (홑겹)",
-                    "style_cd": "3AWJB0521"
+                    "prdt_nm": "베이직 바람막이 (홑겹)",
+                    "style_cd": "3A"
                 },
                 {
                 "url": null,
@@ -329,8 +329,8 @@ ORDER BY week_sale_qty_cy DESC
                 "woi": 0.0,
                 "sale_rate": 0.0,
                 "week_ratio": 0.0,
-                "prdt_nm": "씸볼 그라데이션 테잎 바람막이",
-                    "style_cd": "3AWJS0421"
+                "prdt_nm": " 바람막이",
+                    "style_cd": "3A21"
                 },
                 {
                     "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220203/3FWJM0121-50BKS-59895595451103942.png",
@@ -339,8 +339,8 @@ ORDER BY week_sale_qty_cy DESC
                     "woi": 2861.0,
                     "sale_rate": 0.0,
                     "week_ratio": 0.0,
-                    "prdt_nm": "여성 썸머 모노그램 바람막이 셋업",
-                    "style_cd": "3FWJM0121"
+                    "prdt_nm": "여성 바람막이 셋업",
+                    "style_cd": "121"
                 }
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
