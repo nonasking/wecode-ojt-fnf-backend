@@ -35,7 +35,7 @@
 ### 백엔드
 - Python/Django 
 - Pandas 
-- Postgresql
+- PostgresQL
 - AWS Redshift
 
 ## 구현 기능
