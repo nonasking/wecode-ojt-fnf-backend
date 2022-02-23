@@ -78,7 +78,7 @@ ORDER BY week_sale_qty_cy DESC
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''

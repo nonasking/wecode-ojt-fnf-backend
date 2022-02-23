@@ -43,7 +43,7 @@ ORDER BY end_date, domain1_nm
         )
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''
@@ -284,7 +284,7 @@ ORDER BY week_sale_amt_cy DESC, domain1_nm
         )
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''

@@ -329,7 +329,7 @@ ORDER BY sales_cy DESC , cls
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''

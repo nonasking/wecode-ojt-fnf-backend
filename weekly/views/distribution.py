@@ -62,7 +62,7 @@ ORDER BY end_date
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''
@@ -254,7 +254,7 @@ ORDER BY sales_cy DESC
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''

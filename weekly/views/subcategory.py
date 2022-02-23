@@ -43,7 +43,7 @@ ORDER BY end_date, sub_cat_nm
         )
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''
@@ -264,7 +264,7 @@ ORDER BY week_sale_amt_cy desc, sub_cat_nm asc
 
         return query
 
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
             '''
