@@ -206,7 +206,7 @@ ORDER BY term_cls
             
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
-            
+            """
             result = [{
                 "term_cls"          : item["term_cls"],          #해당년도
                 "int_stock_qty"     : item["int_stock_qty"],     #기초재고
@@ -218,6 +218,27 @@ ORDER BY term_cls
                 }for __, item in data.iterrows()
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
-        
+            """
+            
+            fake = [{
+                "term_cls": "당해",
+                "int_stock_qty": 28888,
+                "stor_qty_kor_term": 0,
+                "sale_qty_w": 475,
+                "avg_4wk_sale_qty": 498.0,
+                "stock_kor": 28000,
+                "woi_4wks": 46.0
+                },
+                {
+                "term_cls": "전년",
+                "int_stock_qty": 18165,
+                "stor_qty_kor_term": 0,
+                "sale_qty_w": 555,
+                "avg_4wk_sale_qty": 210.0,
+                "stock_kor": 22222,
+                "woi_4wks": 81.0
+                }
+           ]
+            return JsonResponse({"message":"success", "data":fake}, status=200)
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)

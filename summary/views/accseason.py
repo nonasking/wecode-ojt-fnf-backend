@@ -229,7 +229,7 @@ ORDER BY term_cls
             data['sales_rate'] = round((data['ac_sale_qty_kor']/data['ac_stor_qty_kor'])*100,0)
             data["season_end_sales_rate"] = round((data["ac_sale_qty_kor_season_end"]/data["ac_stor_qty_kor_season_end"])*100,0)
             data.fillna(0, inplace=True)
-            
+            """
             result = [{
                 "term_cls"                   : item["term_cls"],                   #해당년도
                 "indc_qty"                   : item["indc_qty"],                   #발주
@@ -245,6 +245,34 @@ ORDER BY term_cls
                 }for __, item in data.iterrows()
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
-        
+            """
+            
+            fake = [{
+                "term_cls": "당해",
+                "indc_qty": 50000,
+                "ac_stor_qty_kor": 48197,
+                "sale_qty_kor": 1730,
+                "ac_sale_qty_kor": 7215,
+                "stock_qty": 39091,
+                "sales_rate": 12.0,
+                "ac_stor_qty_kor_season_end": 0,
+                "ac_sale_qty_kor_season_end": 0,
+                "stock_qty_season_end": 0,
+                "season_end_sales_rate": 0.0
+                },
+                {
+                "term_cls": "전년",
+                "indc_qty": 31100,
+                "ac_stor_qty_kor": 28880,
+                "sale_qty_kor": 897,
+                "ac_sale_qty_kor": 1580,
+                "stock_qty": 22878,
+                "sales_rate": 4.0,
+                "ac_stor_qty_kor_season_end": 38853,
+                "ac_sale_qty_kor_season_end": 22552,
+                "stock_qty_season_end": 11847,
+                "season_end_sales_rate": 53.0
+                }]
+            return JsonResponse({"message":"success", "data":fake}, status=200)     
         except KeyError as e:
             return JsonResponse({"message":getattr(e, "message",str(e))}, status=400)
