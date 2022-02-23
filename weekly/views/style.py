@@ -323,7 +323,7 @@ ORDER BY week_sale_qty_cy DESC
                     "style_cd": "3A"
                 },
                 {
-                "url": null,
+                "url": "http://static.mlb-korea.com/images/goods/thnail/m/20220207/3AWJB0521-50CRS-60222135447027369.png",
                 "week_sale_qty_cy": 0,
                 "stock_qty": 0,
                 "woi": 0.0,
