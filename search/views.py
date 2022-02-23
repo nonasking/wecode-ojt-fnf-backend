@@ -436,41 +436,65 @@ class SearchCountCompetitorTimeSeriesView(View):
     #@connect_redshift
     def get(self, request, *args, **kwargs):
         return JsonResponse({
-                "message": "test success",
-                "data": [
-                    {
-                        "end_dt": "22.01.02",
-                        "search_qty_cy": 70,
-                        "search_qty_py": 100
-                    },
-                    {
-                        "end_dt": "22.01.09",
-                        "search_qty_cy": 180,
-                        "search_qty_py": 190
-                    },
-                    {
-                        "end_dt": "22.01.16",
-                        "search_qty_cy": 230,
-                        "search_qty_py": 209
-                    },
-                    {
-                        "end_dt": "22.01.23",
-                        "search_qty_cy": 420,
-                        "search_qty_py": 294
-                    },
-                    {
-                        "end_dt": "22.01.30",
-                        "search_qty_cy": 609,
-                        "search_qty_py": 500
-                    },
-                    {
-                        "end_dt": "22.02.06",
-                        "search_qty_cy": 1000,
-                        "search_qty_py": 1200
-                    }
-                ]
-            }) 
-        
+            "message": "test success",
+            "data": [
+                {
+                    "end_dt": "22.01.02",
+                    "MLB": 2349,
+                    "구찌": 123,
+                    "나이키": 36594,
+                    "루이비통": 4392,
+                    "버버리": 1933,
+                    "프라다": 2947
+                },
+                {
+                    "end_dt": "22.01.09",
+                    "MLB": 1993,
+                    "구찌": 19832,
+                    "나이키": 32499,
+                    "루이비통": 1982,
+                    "버버리": 1293,
+                    "프라다": 111
+                },
+                {
+                    "end_dt": "22.01.16",
+                    "MLB": 1395,
+                    "구찌": 9048,
+                    "나이키": 183,
+                    "루이비통": 1833,
+                    "버버리": 3929,
+                    "프라다": 2893
+                },
+                {
+                    "end_dt": "22.01.23",
+                    "MLB": 2344,
+                    "구찌": 653,
+                    "나이키": 6353,
+                    "루이비통": 4674,
+                    "버버리": 12343,
+                    "프라다": 20499
+                },
+                {
+                    "end_dt": "22.01.30",
+                    "MLB": 12989,
+                    "구찌": 2323,
+                    "나이키": 999,
+                    "루이비통": 1997,
+                    "버버리": 1333,
+                    "프라다": 100
+                },
+                {
+                    "end_dt": "22.02.06",
+                    "MLB": 2938,
+                    "구찌": 2344,
+                    "나이키": 3333,
+                    "루이비통": 4139,
+                    "버버리": 1500,
+                    "프라다": 1000
+                }
+            ]
+        })
+
         '''
         try:
             required_keys = ["brand", "categories", "adult-kids", "start-date", "end-date", "weekly-date", "subcategories"]
