@@ -183,9 +183,10 @@ ORDER BY term_cls
         )
         return query
     
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -229,7 +230,7 @@ ORDER BY term_cls
             data['sales_rate'] = round((data['ac_sale_qty_kor']/data['ac_stor_qty_kor'])*100,0)
             data["season_end_sales_rate"] = round((data["ac_sale_qty_kor_season_end"]/data["ac_stor_qty_kor_season_end"])*100,0)
             data.fillna(0, inplace=True)
-            """
+            
             result = [{
                 "term_cls"                   : item["term_cls"],                   #해당년도
                 "indc_qty"                   : item["indc_qty"],                   #발주
@@ -245,7 +246,7 @@ ORDER BY term_cls
                 }for __, item in data.iterrows()
             ]
             return JsonResponse({"message":"success", "data":result}, status=200)
-            """
+            '''
             
             fake = [{
                 "term_cls": "당해",

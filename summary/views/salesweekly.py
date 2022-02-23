@@ -192,9 +192,10 @@ ORDER BY end_dt
         )
         return query
     
-    @connect_redshift
+    #@connect_redshift
     def get(self, request, *args, **kwargs):
         try:
+            '''
             required_keys = ["brand", "categories", "adult-kids", "start-date",
                              "end-date", "weekly-date", "seasons", "subcategories"]
             check_keys_in_dictionary(request.GET, required_keys)
@@ -238,7 +239,7 @@ ORDER BY end_dt
             
             if data is None:
                 return JsonResponse({"message":"QUERY_ERROR","query":query}, status=400)
-            """
+            
             result = [{
                 "end_dt"               : data["end_dt"],               #끝나는 시점
                 "sale_qty_kor_ttl"     : data["sale_qty_kor_ttl"],     #판매량 당해
@@ -252,7 +253,7 @@ ORDER BY end_dt
                 }for __, data in data.iterrows()
             ]            
             return JsonResponse({"message":"success", "data":result}, status=200)
-            """
+            '''
             
             fake = [{
                 "end_dt": "22.01.02",
