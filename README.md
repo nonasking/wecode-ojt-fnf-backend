@@ -1,77 +1,78 @@
 # wecode-ojt-fnf-backend
 
-## F&F 기업협업 프로젝트 Back-end 소개
+## About the F&F industry-collaboration project — Back-end
 
-- F&F 사내 대시보드 클론 프로젝트
-- F&F의 사내 대시보드는 판매 데이터를 가공하고 시각화하여, 사내의 사용자들에게 유의미한 비즈니스 인사이트를 제공하는 것을 목적으로 합니다.
-- F&F 사내 대시보드 중 카테고리 판매 분석 페이지/스타일랭킹 페이지를 구현했습니다.
-- F&F의 사내 데이터베이스에서 실제 데이터를 가져와서 작업했습니다. (보안상의 이슈로, 데모 영상은 팀원들이 만든 mock 데이터를 가지고 만들었습니다.)
+- A clone of F&F's internal company dashboard.
+- F&F's internal dashboard processes and visualizes sales data to deliver meaningful business insights to in-house users.
+- We implemented the Category Sales Analysis page and the Style Ranking page of that dashboard.
+- We worked with real data pulled from F&F's internal database. (For security reasons, the demo video uses mock data created by the team.)
 
-### 개발 인원 및 기간
+### Team & timeline
 
-- 개발기간 : 2020/1/24 ~ 2020/2/23
-- 개발 인원 : 
-  - 백엔드 3명 : 김재엽, 강민성, 지원석
-  - 프론트엔드 4명 : [프론트엔드 github 링크](https://github.com/KimJeongHyun/wecode-ojt-fnf-frontend)
+- Period: 2020/1/24 ~ 2020/2/23
+- Team:
+  - Back-end (3): Jaeyeop Kim, Minsung Kang, Wonseok Ji
+  - Front-end (4): [Frontend GitHub repository](https://github.com/KimJeongHyun/wecode-ojt-fnf-frontend)
 
-### 프로젝트 선정 배경
+### Background
 
-- 본 프로젝트는 wecode와 F&F의 기업협업에서 wecode 28기 수강생 7명이 진행한 프로젝트입니다.
+- This project was carried out by 7 wecode 28th-cohort students as part of an industry collaboration between wecode and F&F.
 
 <br>
 
-## 협업 도구
-- Slack, Github
+## Collaboration tools
+- Slack, GitHub
 
-## 적용 기술
+## Tech stack
 
-### 공통
+### Shared
 - RESTful API
 
-### 백엔드
-- Python/Django 
-- Pandas 
+### Back-end
+- Python / Django
+- Pandas
 - PostgreSQL
 - AWS Redshift
 
-## 구현 기능
+## Features
 
-### 공통
+### Shared
 
-#### 필터
-- 해당 브랜드의 데이터 카테고리들을 필터에서 선택하여 원하는 데이터를 볼 수 있는 기능
+#### Filter
+- Select a brand's data categories in the filter to view the data you want.
 
-### 카테고리 판매 분석 페이지
+### Category Sales Analysis page
 
-#### 검색량/검색어 데이터 시각화
-- 브랜드별 전년 검색량/당해 검색량/전년비 데이터를 테이블로 볼 수 있는 기능
-- 일반 검색어/자사 검색어의 검색량 추이를 차트로 볼 수 있는 기능
-- 경쟁사 검색어의 검색량 추이를 차트로 볼 수 있는 기능
+#### Search-volume / keyword data visualization
+- View prior-year search volume / current-year search volume / year-over-year data in a table, by brand.
+- View search-volume trends for general and own-brand keywords as charts.
+- View search-volume trends for competitor keywords as charts.
 
-#### (카테고리 판매 분석/원석님 파트)
+#### (Category sales analysis / Wonseok Ji's part)
 
-#### 주간 판매 실적 분석
-- 서브카테고리 별 판매량 데이터를 차트 및 테이블에 적합하게 가공하는 기능
-- 도매인(e.g., 패턴) 별 판매량 데이터를 차트 및 테이블에 적합하게 가공하는 기능
-- 각 품목별 판매량, 재고수량 등을 테이블에 적합하게 가공하는 기능
-- 유통 국가 별 판매량 데이터를 차트 및 테이블에 적합하게 가공하는 기능
-- 유통 채널 별 판매량 데이터를 차트 및 테이블에 적합하게 가공하는 기능
-### 스타일랭킹 페이지
+#### Weekly sales performance analysis
+- Process per-subcategory sales data to fit charts and tables.
+- Process per-domain (e.g. pattern) sales data to fit charts and tables.
+- Process per-item sales volume, stock quantity, etc. to fit tables.
+- Process per-country sales data to fit charts and tables.
+- Process per-channel sales data to fit charts and tables.
 
-#### 랭킹 품목 및 요약 내역
-- Top 5, 20, 50, 100, Total에 해당하는 랭킹에 대한 통계를 계산하는 기능
-- Top 200에 해당하는 품목 및 판매량 통계를 가공하는 기능
-- 주어진 조건에 맞는 판매량 관련 통계를 계산하는 기능  
+### Style Ranking page
 
-#### 특정 제품의 상세 데이터 시각화
-- 특정 제품에 대해, 라디오 버튼을 선택하여 원하는 데이터를 볼 수 있는 기능
-- 특정 제품의 매출 추이를 테이블과 차트로 볼 수 있는 기능
-- 주차별 판매 데이터를 테이블로 볼 수 있는 기능
-- 채널별/매장별 판매 데이터를 테이블로 볼 수 있는 기능
+#### Ranking items & summary
+- Compute statistics for the Top 5, 20, 50, 100, and Total rankings.
+- Process Top 200 items and their sales-volume statistics.
+- Compute sales-related statistics matching the given conditions.
+
+#### Detailed visualization of a specific product
+- View the data you want for a specific product via radio-button selection.
+- View a specific product's revenue trend in a table and chart.
+- View weekly sales data in a table.
+- View per-channel / per-store sales data in a table.
 
 <br>
 
 ## Reference
 
-- 이 프로젝트는 F&F의 사내 대시보드를 참조하여 학습목적으로 만들었습니다.
-- 실무수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우 법적으로 문제될 수 있습니다.
+- This project was built for learning purposes, referencing F&F's internal dashboard.
+- Although it is a production-grade project, it was made for study; using this code for profit or redistributing it without permission may cause legal issues.
